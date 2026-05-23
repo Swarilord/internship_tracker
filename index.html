@@ -292,9 +292,79 @@ const COMPANIES = [
   { id: 'eth-rise', name: 'ETH RISE', role: 'Research Internship Abroad', category: 'ETH', openWindow: 'Deadline ~Dec 2026', urgencyMonth: '2026-11', priority: 2, url: 'https://ethz.ch/en/studies/non-degree-courses/summer-offers.html', note: '' },
   { id: 'eth-ai', name: 'ETH AI Center', role: 'Summer projects / fellowships', category: 'ETH', openWindow: 'Watch postings', urgencyMonth: '2026-09', priority: 2, url: 'https://ai.ethz.ch/', note: '' },
   { id: 'eth-rlab', name: 'ETH RiskLab', role: 'Research projects (Cheridito)', category: 'ETH', openWindow: 'Email anytime', urgencyMonth: '2026-09', priority: 1, url: 'https://math.ethz.ch/risklab', note: 'Math finance — direct fit.' },
+  // === LONG-TAIL / SHOOT-YOUR-SHOT ===
+  // DACH M&A boutiques
+  { id: 'maq', name: 'Macquarie Capital', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.macquarie.com/au/en/about/careers.html', note: 'Frankfurt + London.' },
+  { id: 'drk', name: 'Drake Star Partners', role: 'Summer Intern', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.drakestar.com/en/careers', note: 'Tech M&A. Munich/Frankfurt.' },
+  { id: 'ala', name: 'Alantra', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.alantra.com/careers/', note: 'Frankfurt mid-market M&A.' },
+  { id: 'green', name: 'Greenhill & Co', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.greenhill.com/careers', note: 'Frankfurt/London boutique.' },
+  { id: 'mfb', name: 'Mainfirst Bank', role: 'Summer Intern', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.mainfirstbank.com/de/karriere', note: 'Frankfurt.' },
+  { id: 'metzler', name: 'Bankhaus Metzler', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.metzler.com/de/karriere', note: 'Frankfurt. German private bank + M&A.' },
+  { id: 'ber', name: 'Berenberg', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.berenberg.com/en/career-3', note: 'Hamburg. IB + private banking.' },
+  { id: 'warburg', name: 'M.M. Warburg & Co', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.mmwarburg.de/de/karriere', note: 'Hamburg private bank.' },
+  { id: 'oddo', name: 'ODDO BHF', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.oddo-bhf.com/en/careers', note: 'Frankfurt M&A + AM.' },
+  { id: 'goetz', name: 'Goetzpartners', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.goetzpartners.com/en/careers', note: 'Munich M&A + strategy advisory.' },
+  { id: 'hal', name: 'Hauck Aufhäuser Lampe', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.hal-privatbank.com/de/karriere', note: 'Frankfurt private bank + AM.' },
+  // Swiss/Liechtenstein family offices, PE, AM
+  { id: 'lgt-cp', name: 'LGT Capital Partners', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.lgtcp.com/en/about-us/careers/', note: 'Pfäffikon ZH. PE/multi-asset. Math fits.' },
+  { id: 'bellevue', name: 'Bellevue Group', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.bellevue.ch/en/career', note: 'Küsnacht. Niche AM.' },
+  { id: 'gam', name: 'GAM Investments', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.gam.com/en/careers', note: 'Zurich active AM.' },
+  { id: 'unig', name: 'Unigestion', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.unigestion.com/about-us/careers/', note: 'Geneva quant/multi-asset.' },
+  { id: 'capvis', name: 'Capvis', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.capvis.com/en/team/career', note: 'Zug PE.' },
+  { id: 'mira', name: 'Mirabaud', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.mirabaud.com/en/careers', note: 'Geneva private banking.' },
+  { id: 'bord', name: 'Bordier & Cie', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.bordier.com/en/careers', note: 'Geneva private bank.' },
+  { id: 'blueorch', name: 'BlueOrchard', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.blueorchard.com/about/careers/', note: 'Zurich impact finance.' },
+  { id: 'resp', name: 'responsAbility', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.responsability.com/en/career', note: 'Zurich impact investing.' },
+  { id: 'vpb', name: 'VP Bank', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.vpbank.com/en/career', note: 'Vaduz/Liechtenstein.' },
+  { id: 'llb', name: 'LLB Group', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.llb.li/en/career', note: 'Vaduz/Zurich.' },
+  { id: 'raho', name: 'Rahn+Bodmer Co.', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.rahnbodmer.ch/en/career.html', note: 'Zurich, oldest Swiss private bank.' },
+  { id: 'tradi', name: 'Compagnie Financière Tradition', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.tradition.com/en/careers', note: 'Lausanne interdealer broker.' },
+  // London quant / hedge funds (mid-market)
+  { id: 'xtx', name: 'XTX Markets', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.xtxmarkets.com/careers', note: 'London. Top quant. Math = their exact target.' },
+  { id: 'brevan', name: 'Brevan Howard', role: 'Summer Analyst 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.brevanhoward.com/careers/', note: 'London/Geneva macro HF.' },
+  { id: 'bluecrest', name: 'BlueCrest Capital', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.bluecrestcapital.com/careers/', note: 'London hedge fund.' },
+  { id: 'capula', name: 'Capula Investment', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://capula.com/careers/', note: 'London fixed income/macro.' },
+  { id: 'headlands', name: 'Headlands Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.headlandstech.com/careers/', note: 'Chicago/London prop.' },
+  { id: 'exodus', name: 'ExodusPoint', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://exoduspoint.com/careers/', note: 'London/NY multi-strat.' },
+  { id: 'volant', name: 'Volant Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://volanttrading.com/careers/', note: 'NY/London prop.' },
+  { id: 'akuna', name: 'Akuna Capital', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://akunacapital.com/careers', note: 'Chicago/London/Sydney.' },
+  { id: 'wolv', name: 'Wolverine Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.wolve.com/careers/', note: 'Chicago options.' },
+  { id: 'belv', name: 'Belvedere Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.belvederetrading.com/careers/', note: 'Chicago options.' },
+  // Asset managers (London + Zurich)
+  { id: 'blkrk', name: 'BlackRock', role: 'Summer Analyst 2027 EMEA', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.blackrock.com/early-careers/', note: 'Zurich + London. Largest AM globally.' },
+  { id: 'vang', name: 'Vanguard', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://corporate.vanguard.com/content/corporatesite/us/en/corp/careers.html', note: 'London.' },
+  { id: 'schrod', name: 'Schroders', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.schroders.com/en/careers/', note: 'London/Zurich AM + Capital (PE).' },
+  { id: 'fid', name: 'Fidelity International', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.fidelityinternational.com/early-careers/', note: 'London.' },
+  { id: 'cap', name: 'Capital Group', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.capitalgroup.com/global/about-us/careers.html', note: 'London/Geneva.' },
+  { id: 'tro', name: 'T. Rowe Price', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.troweprice.com/corporate/en/careers.html', note: 'London.' },
+  { id: 'well', name: 'Wellington Management', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.wellington.com/en/careers', note: 'London/Frankfurt.' },
+  { id: 'inv', name: 'Invesco', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://careers.invesco.com/students/', note: 'London/Frankfurt.' },
+  { id: 'robeco', name: 'Robeco', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.robeco.com/en/about-us/careers.html', note: 'Rotterdam/Zurich quant AM.' },
+  // DACH Corporate strategy/finance
+  { id: 'roche', name: 'Roche', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.roche.com/global/en/early-careers', note: 'Basel pharma.' },
+  { id: 'nov', name: 'Novartis', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.novartis.com/careers/students-graduates', note: 'Basel pharma.' },
+  { id: 'nestle', name: 'Nestlé', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.nestle.com/jobs/students-graduates', note: 'Vevey HQ.' },
+  { id: 'abb', name: 'ABB', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://global.abb/group/en/careers/students-and-graduates', note: 'Zurich industrial.' },
+  { id: 'sie', name: 'Siemens', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://new.siemens.com/global/en/company/jobs.html', note: 'Munich/Zug.' },
+  { id: 'sap', name: 'SAP', role: 'Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://jobs.sap.com/content/Students-and-Graduates/', note: 'Walldorf. Tech-finance crossover.' },
+  { id: 'lonza', name: 'Lonza', role: 'Finance/Strategy Intern', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.lonza.com/careers', note: 'Basel.' },
+  { id: 'six', name: 'SIX Group', role: 'Summer Intern', category: 'Corporate', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.six-group.com/en/careers.html', note: 'Zurich. Swiss exchange + financial data.' },
+  { id: 'holcim', name: 'Holcim', role: 'Strategy Intern', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.holcim.com/careers', note: 'Zurich building materials.' },
+  { id: 'bmw', name: 'BMW Group', role: 'Finance/Strategy Intern', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.bmwgroup.jobs/de/de/karriere/studenten-und-absolventen.html', note: 'Munich.' },
+  // Big 4 transaction advisory
+  { id: 'del-fa', name: 'Deloitte Financial Advisory', role: 'Summer Intern 2027', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www2.deloitte.com/ch/en/careers.html', note: 'Zurich M&A advisory.' },
+  { id: 'kpmg-da', name: 'KPMG Deal Advisory', role: 'Summer Intern 2027', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://home.kpmg/ch/en/home/careers/students.html', note: 'Zurich.' },
+  { id: 'am', name: 'Alvarez & Marsal', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.alvarezandmarsal.com/careers', note: 'Munich/London restructuring + PE.' },
+  { id: 'alix', name: 'AlixPartners', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.alixpartners.com/careers/', note: 'Munich/Frankfurt restructuring.' },
+  // Specialty insurance / actuarial
+  { id: 'hannover', name: 'Hannover Re', role: 'Actuarial/Quant Intern', category: 'Insurance', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.hannover-re.com/career', note: 'Hannover. Top 3 reinsurer.' },
+  { id: 'talanx', name: 'Talanx Group', role: 'Actuarial Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.talanx.com/de/karriere', note: 'Hannover.' },
+  { id: 'mercer', name: 'Mercer', role: 'Actuarial Consulting Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.mercer.com/global/en', note: 'Zurich. Actuarial + pension consulting.' },
+  { id: 'wtw', name: 'WTW (Willis Towers Watson)', role: 'Actuarial Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.wtwco.com/early-careers/', note: 'Zurich/London.' },
+  { id: 'aon', name: 'Aon', role: 'Actuarial/Reinsurance Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.aon.com/about/careers/', note: 'Zurich/London.' },
 ];
 
-const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'Insurance', 'Commodities', 'Tech', 'ETH'];
+const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'Insurance', 'Commodities', 'Tech', 'Corporate', 'ETH'];
 
 const STATUSES = {
   todo: { label: 'To Do', color: '#0F1419', bg: '#F8F5EE' },
@@ -308,7 +378,7 @@ const STATUSES = {
 const CAT_COLORS = {
   IB: '#0F4C75', Consulting: '#7C3AED', Quant: '#C84B31', Insight: '#D97706',
   'Swiss Bank': '#15803D', Insurance: '#0E7490', Commodities: '#A16207',
-  Tech: '#1F2937', ETH: '#9333EA',
+  Tech: '#1F2937', Corporate: '#831843', ETH: '#9333EA',
 };
 
 const EXTERNAL_ALERTS = [

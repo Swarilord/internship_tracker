@@ -368,6 +368,7 @@ const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank',
 
 const STATUSES = {
   todo: { label: 'To Do', color: '#0F1419', bg: '#F8F5EE' },
+  not_open: { label: 'Not Open Yet', color: '#92400E', bg: '#FEF3C7' },
   applied: { label: 'Applied', color: '#2563EB', bg: '#EFF6FF' },
   interview: { label: 'Interview', color: '#7C3AED', bg: '#F5F3FF' },
   offer: { label: 'Offer', color: '#15803D', bg: '#F0FDF4' },
@@ -611,13 +612,15 @@ const enrich = (c) => ({
 
 const verifyLabel = (c) => {
   const isUrgentish = monthsFromNow(c.urgencyMonth) <= 2;
+  const isMonitoring = c.status === 'not_open';
   const d = daysSince(c.lastChecked);
   if (d === null) {
-    return { text: c.greenhouseSlug ? 'Live data not loaded' : 'Not verified', cls: isUrgentish ? 'stale' : '' };
+    return { text: c.greenhouseSlug ? 'Live data not loaded' : (isMonitoring ? 'Not checked yet — verify cycle status' : 'Not verified'), cls: (isUrgentish || isMonitoring) ? 'stale' : '' };
   }
-  if (d === 0) return { text: 'Verified today', cls: 'fresh' };
-  if (d === 1) return { text: 'Verified yesterday', cls: 'fresh' };
-  if (d <= 6) return { text: `Verified ${d}d ago`, cls: 'fresh' };
+  if (d === 0) return { text: 'Checked today', cls: 'fresh' };
+  if (d === 1) return { text: 'Checked yesterday', cls: 'fresh' };
+  if (d <= 6) return { text: `Checked ${d}d ago`, cls: 'fresh' };
+  if (isMonitoring) return { text: `Checked ${d}d ago — recheck weekly`, cls: 'stale' };
   if (d <= 13) return { text: `Verified ${d}d ago`, cls: '' };
   return { text: `Verified ${d}d ago — stale`, cls: isUrgentish ? 'stale' : '' };
 };
@@ -706,6 +709,8 @@ function dashboardHtml() {
     .sort((a, b) => (a.priority - b.priority) || a.urgencyMonth.localeCompare(b.urgencyMonth));
   const upcoming = all.filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) > 1 && monthsFromNow(c.urgencyMonth) <= 4)
     .sort((a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth) || (a.priority - b.priority));
+  const monitoring = all.filter(c => c.status === 'not_open')
+    .sort((a, b) => (a.priority - b.priority) || a.urgencyMonth.localeCompare(b.urgencyMonth));
   const later = all.filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) > 4)
     .sort((a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth));
 
@@ -716,13 +721,14 @@ function dashboardHtml() {
     <div class="disclaimer">
       <div class="disclaimer-title">⚠ Data freshness</div>
       <div class="disclaimer-body">
-        Static fields (deadlines, opening windows) are based on prior cycles and may be off by weeks. ${liveCount} firms have <strong>LIVE</strong> integration via Greenhouse API showing current open postings. For all other firms, use the "Verify & Open" button to mark when you last confirmed the careers page yourself. Cards turn red when stale (&gt;14 days for upcoming firms).
+        Static fields (deadlines, opening windows) are based on prior cycles and may be off by weeks. ${liveCount} firms have <strong>LIVE</strong> integration via Greenhouse API showing current open postings. For all other firms, use the "Verify & Open" button to mark when you last confirmed the careers page yourself. For firms where the 2027 cycle hasn't appeared yet, mark them <strong>"Not Open Yet"</strong> — they move to a separate Monitoring section and prompt weekly rechecks.
       </div>
     </div>
 
     <div class="batch-bar">
       <div class="batch-bar-text">
         <strong>${urgent.length}</strong> urgent · 
+        <strong>${monitoring.length}</strong> monitoring · 
         <strong>${liveCount}</strong> live · 
         Quick actions:
       </div>
@@ -754,6 +760,16 @@ function dashboardHtml() {
       ${upcoming.length === 0 ? '<div class="empty">Nothing in the queue.</div>' : upcoming.map(c => cardHtml(c, false)).join('')}
     </section>
 
+    ${monitoring.length > 0 ? `
+      <section class="section">
+        <div class="section-head" style="border-bottom-color:#D97706"><div>
+          <h2 class="section-title" style="color:#92400E">Monitoring</h2>
+          <div class="section-sub">${monitoring.length} firm${monitoring.length === 1 ? '' : 's'} where 2027 cycle hasn't opened yet · recheck weekly</div>
+        </div></div>
+        ${monitoring.map(c => cardHtml(c, false)).join('')}
+      </section>
+    ` : ''}
+
     ${later.length > 0 ? `
       <section class="section">
         <div class="section-head"><div>
@@ -783,7 +799,7 @@ function allFirmsHtml() {
         ${CATEGORIES.map(cat => `<button class="chip ${state.filter === cat ? 'active' : ''}" data-filter="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`).join('')}
       </div>
       <div class="chip-row">
-        ${[['all','All status'],['todo','To do'],['applied','Applied'],['interview','Interview'],['offer','Offer'],['rejected','Rejected'],['skipped','Skipped']].map(([k,l]) => `<button class="chip chip-sm ${state.statusFilter === k ? 'active' : ''}" data-statusfilter="${k}">${l}</button>`).join('')}
+        ${[['all','All status'],['todo','To do'],['not_open','Not open yet'],['applied','Applied'],['interview','Interview'],['offer','Offer'],['rejected','Rejected'],['skipped','Skipped']].map(([k,l]) => `<button class="chip chip-sm ${state.statusFilter === k ? 'active' : ''}" data-statusfilter="${k}">${l}</button>`).join('')}
       </div>
     </div>
     <div class="mono" style="font-size:11px;color:#8B7355;margin-bottom:12px">${filtered.length} result${filtered.length === 1 ? '' : 's'}</div>
@@ -838,8 +854,10 @@ function alertsHtml() {
       <h3 class="serif" style="font-size:16px;font-weight:600;margin:0 0 10px">Workflow during Basisprüfung Lernphase</h3>
       <ol style="font-size:13px;color:#5C5040;line-height:1.7;padding-left:20px;margin:0">
         <li>Set up all 8 external alerts above (one-time, ~20 min).</li>
+        <li>Mark firms where the 2027 cycle hasn't appeared yet (Goldman Sachs Summer Analyst, etc.) as <strong>"Not Open Yet"</strong> — they move to the Monitoring section.</li>
         <li>Open this tracker once a week — Sunday evening, 5 minutes.</li>
         <li>Click "Refresh live data" to pull current postings from Greenhouse-hosted firms.</li>
+        <li>Check the Monitoring section — for each firm, click "Check & Open" to verify if 2027 has opened. If yes, click "Cycle opened" to move it to Action.</li>
         <li>Click "Open top 5 urgent" to batch-check the most time-sensitive firms.</li>
         <li>Mark status. Close. Back to studying.</li>
         <li>After Basisprüfung (late Aug), switch to twice-weekly checks.</li>
@@ -884,14 +902,16 @@ function cardHtml(c, urgent) {
 function cardBodyHtml(c) {
   const isEditing = state.editingNote === c.id;
   const hasLive = !!c.greenhouseSlug;
+  const isMonitoring = c.status === 'not_open';
   return `
     <div class="card-body">
       ${c.note ? `<div class="card-quote">"${escapeHtml(c.note)}"</div>` : ''}
+      ${isMonitoring ? `<div style="background:#FEF3C7;border:1px solid #FCD34D;padding:8px 10px;border-radius:2px;margin-top:8px;font-size:12px;color:#78350F;line-height:1.4">⏳ <strong>Monitoring</strong> — 2027 cycle not yet posted. Click "Verify & Open" to check, then "Cycle opened" if the role is now live.</div>` : ''}
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn btn-primary" data-verify-open="${c.id}|${escapeHtml(c.url)}">Verify & Open ${icons.external}</button>
-        <button class="btn btn-secondary ${c.status === 'applied' ? 'active' : ''}" data-mark-applied="${c.id}">${c.status === 'applied' ? '✓ Applied' : 'Mark applied'}</button>
+        <button class="btn btn-primary" data-verify-open="${c.id}|${escapeHtml(c.url)}">${isMonitoring ? 'Check & Open' : 'Verify & Open'} ${icons.external}</button>
+        ${isMonitoring ? `<button class="btn" style="background:#15803D;color:#FFF" data-cycle-opened="${c.id}">✓ Cycle opened — move to To Do</button>` : `<button class="btn btn-secondary ${c.status === 'applied' ? 'active' : ''}" data-mark-applied="${c.id}">${c.status === 'applied' ? '✓ Applied' : 'Mark applied'}</button>`}
         ${hasLive ? `<button class="btn btn-live" data-refresh-live="${c.id}">${state.liveFetching[c.id] ? '<span class="spin">⟳</span>' : icons.refresh} Refresh live</button>` : ''}
-        <button class="btn btn-skip" data-setstatus="${c.id}|skipped">Skip</button>
+        ${!isMonitoring ? `<button class="btn btn-skip" data-setstatus="${c.id}|skipped">Skip</button>` : `<button class="btn btn-skip" data-setstatus="${c.id}|skipped">Skip</button>`}
       </div>
       ${hasLive ? liveSectionHtml(c) : ''}
       <div style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap">
@@ -1013,6 +1033,15 @@ function attachListeners() {
   });
   document.querySelectorAll('[data-refresh-live]').forEach(el => {
     el.onclick = (e) => { e.stopPropagation(); refreshSingleLive(el.dataset.refreshLive); };
+  });
+  document.querySelectorAll('[data-cycle-opened]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const id = el.dataset.cycleOpened;
+      const now = new Date();
+      const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+      updateApp(id, { status: 'todo', cycleOpenedAt: new Date().toISOString(), lastChecked: new Date().toISOString() });
+    };
   });
   const searchInput = document.getElementById('search-input');
   if (searchInput) {

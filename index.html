@@ -40,7 +40,9 @@ input, textarea { font-family: inherit; }
 .spin { animation: spin 1s linear infinite; display: inline-block; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .live-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #15803D; animation: pulse 2s infinite; vertical-align: middle; margin-right: 4px; }
+@media (prefers-reduced-motion: reduce) { .card-enter, .spin, .live-dot { animation: none; } }
 a { color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid #C84B31; outline-offset: 1px; }
 
 .app { min-height: 100vh; min-height: 100dvh; }
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
@@ -50,12 +52,13 @@ a { color: inherit; }
 .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: #8B7355; text-transform: uppercase; }
 .title { font-family: 'Fraunces', Georgia, serif; font-size: 32px; font-weight: 600; margin: 4px 0 0; letter-spacing: -0.5px; line-height: 1.1; }
 
-.tabs { border-bottom: 1px solid #E5DDC8; background: #F8F5EE; position: sticky; top: 92px; z-index: 9; }
+.tabs { border-bottom: 1px solid #E5DDC8; background: #F8F5EE; position: sticky; z-index: 9; }
 .tabs-inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
 .tabs-inner::-webkit-scrollbar { display: none; }
 .tab { padding: 12px 14px; font-size: 13px; font-weight: 500; white-space: nowrap; border-bottom: 2px solid transparent; color: #5C5040; display: flex; align-items: center; gap: 6px; margin-bottom: -1px; }
 .tab.active { border-bottom-color: #C84B31; color: #C84B31; }
 .tab svg { width: 14px; height: 14px; }
+.tab-count { font-family: 'JetBrains Mono', monospace; font-size: 9px; background: #C84B31; color: #FFF; border-radius: 8px; padding: 1px 5px; }
 
 main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bottom, 0)); }
 
@@ -78,11 +81,14 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .section { margin-bottom: 36px; }
 .section-head { display: flex; align-items: baseline; justify-content: space-between; width: 100%; padding: 0 0 12px; margin-bottom: 12px; border-bottom: 1px solid #D4CCBC; gap: 12px; }
 .section-head.accent { border-bottom-color: #C84B31; }
+.section-head.green { border-bottom-color: #15803D; }
 .section-title { font-family: 'Fraunces', Georgia, serif; font-size: 22px; font-weight: 600; margin: 0; }
 .section-title.accent { color: #C84B31; }
+.section-title.green { color: #15803D; }
 .section-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8B7355; margin-top: 4px; letter-spacing: 0.3px; }
 
 .card { background: #FFF; border: 1px solid #E5DDC8; border-radius: 2px; margin-bottom: 8px; overflow: hidden; }
+.card.open-now { border-color: #A7D4B4; box-shadow: 0 1px 3px rgba(21, 128, 61, 0.10); border-left: 3px solid #15803D; }
 .card.urgent { border-color: #E8C3B5; box-shadow: 0 1px 3px rgba(200, 75, 49, 0.08); }
 .card.stale { border-left: 3px solid #C84B31; }
 .card-head { padding: 14px 16px; cursor: pointer; }
@@ -93,6 +99,7 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .card-role { font-size: 12px; color: #5C5040; margin-top: 4px; line-height: 1.4; }
 .card-window { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8B7355; margin-top: 6px; letter-spacing: 0.3px; font-weight: 500; text-transform: uppercase; }
 .card-window.urgent { color: #C84B31; }
+.card-window.open { color: #15803D; }
 .card-verify { font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; color: #8B7355; }
 .card-verify.stale { color: #C84B31; }
 .card-verify.fresh { color: #15803D; }
@@ -110,6 +117,8 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .live-job-title { font-weight: 500; color: #0F1419; }
 .live-job-meta { font-size: 11px; color: #5C5040; margin-top: 2px; }
 .live-job a { color: #0F4C75; text-decoration: none; }
+.region-tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 1px 4px; border-radius: 2px; background: #E0EDE5; color: #166534; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.new-tag { font-family: 'JetBrains Mono', monospace; font-size: 8px; padding: 1px 4px; border-radius: 2px; background: #C84B31; color: #FFF; margin-left: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
 .btn { padding: 7px 12px; font-size: 12px; font-weight: 500; border-radius: 2px; display: inline-flex; align-items: center; gap: 5px; }
 .btn-primary { background: #0F1419; color: #F8F5EE; text-decoration: none; }
@@ -119,12 +128,16 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .btn-skip { background: #FFF; color: #9CA3AF; border: 1px solid #E5DDC8; }
 .btn-live { background: #FFF; border: 1px solid #15803D; color: #15803D; }
 .btn-live:hover { background: #F0FAF3; }
+.btn-green { background: #15803D; color: #FFF; }
+.btn-amber { background: #FFF; border: 1px solid #D97706; color: #92400E; }
 .status-pill { padding: 3px 8px; font-size: 10px; font-weight: 500; border-radius: 2px; border: 1px solid #E5DDC8; background: transparent; color: #8B7355; }
 .status-pill.active { color: #FFF; }
 
 .cat-tag { font-family: 'JetBrains Mono', monospace; padding: 1px 6px; font-size: 9px; font-weight: 500; letter-spacing: 0.5px; border-radius: 2px; text-transform: uppercase; }
 .badge { font-family: 'JetBrains Mono', monospace; padding: 2px 7px; font-size: 9px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; border-radius: 2px; white-space: nowrap; }
 .live-badge { font-family: 'JetBrains Mono', monospace; padding: 1px 6px; font-size: 9px; font-weight: 500; letter-spacing: 0.5px; border-radius: 2px; background: #15803D; color: #FFF; }
+.live-badge.quiet { background: #8B7355; }
+.live-badge.off { background: #D4CCBC; color: #5C5040; }
 
 .note-input { width: 100%; padding: 8px; border: 1px solid #E5DDC8; font-size: 12px; border-radius: 2px; outline: none; resize: vertical; min-height: 60px; }
 .note-btn { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8B7355; }
@@ -140,6 +153,8 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .chip-sm.active { background: #C84B31; color: #FFF; border-color: #C84B31; }
 
 .empty { padding: 24px 16px; text-align: center; color: #8B7355; font-size: 13px; font-style: italic; }
+.show-more { width: 100%; padding: 10px; text-align: center; font-size: 12px; color: #C84B31; background: #FFF; border: 1px dashed #E5DDC8; border-radius: 2px; font-weight: 500; }
+.show-more:hover { background: #FDF3EF; }
 
 .alert-card { display: flex; align-items: center; gap: 12px; background: #FFF; border: 1px solid #E5DDC8; padding: 12px 14px; margin-bottom: 6px; border-radius: 2px; cursor: pointer; }
 .checkbox { width: 18px; height: 18px; border: 1.5px solid #C9BFA8; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: transparent; }
@@ -150,6 +165,9 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 .intro { background: #FFF; border: 1px solid #E5DDC8; padding: 20px 18px; border-radius: 2px; margin-bottom: 24px; }
 .intro h2 { font-family: 'Fraunces', Georgia, serif; font-size: 20px; font-weight: 600; margin: 0 0 8px; }
 .intro p { font-size: 13px; color: #5C5040; line-height: 1.5; margin: 0; }
+
+.health-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid #F0E8D4; font-size: 12px; }
+.health-row:last-child { border-bottom: none; }
 
 @media (max-width: 600px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
@@ -171,36 +189,40 @@ main { padding: 24px 0 80px; padding-bottom: calc(80px + env(safe-area-inset-bot
 
 <script>
 /* ============================================================
-   COMPANIES — greenhouseSlug enables LIVE data fetching
+   COMPANIES
+   - ats/atsSlug enable LIVE data via public job-board APIs
+     (greenhouse, greenhouse-eu, lever). Slugs marked
+     verified:true were confirmed working June 2026; the rest
+     are best-effort and auto-disable gracefully on 404.
    ============================================================ */
 
 const COMPANIES = [
-  // IB - Already open
-  { id: 'gs-emea', name: 'Goldman Sachs', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 1, url: 'https://www.goldmansachs.com/careers/students/programs-and-internships/emea/', note: 'Apply ASAP. Fills by July.' },
-  { id: 'jpm-emea', name: 'JPMorgan', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 1, url: 'https://careers.jpmorgan.com/global/en/students/programs', note: 'Open since Dec 2025.' },
-  { id: 'citi-emea', name: 'Citi', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://jobs.citi.com/early-careers', note: 'Open since Dec 2025.' },
-  { id: 'ms-emea', name: 'Morgan Stanley', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://www.morganstanley.com/people/early-careers', note: '' },
-  { id: 'bofa-emea', name: 'Bank of America', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://campus.bankofamerica.com/', note: '' },
-  { id: 'barclays-emea', name: 'Barclays', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://search.jobs.barclays/early-careers', note: '' },
-  { id: 'db-emea', name: 'Deutsche Bank', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 1, url: 'https://careers.db.com/students/', note: 'German native is a plus.' },
-  // Quant - already open (with LIVE)
-  { id: 'optiver-qr', name: 'Optiver', role: 'Quant Researcher Intern 2026–27', category: 'Quant', openWindow: 'OPEN', urgencyMonth: '2026-05', priority: 1, url: 'https://optiver.com/working-at-optiver/career-opportunities/', note: 'Amsterdam. Stretch but apply.' },
-  { id: 'davinci', name: 'Da Vinci Derivatives', role: 'Quant Trading Intern', category: 'Quant', openWindow: 'OPEN', urgencyMonth: '2026-05', priority: 2, url: 'https://www.davinciderivatives.com/careers', note: 'Amsterdam. Math/physics target.', greenhouseSlug: 'davinciderivatives', greenhouseEu: true },
-  { id: 'maven', name: 'Maven Securities', role: 'Trader Summer Intern', category: 'Quant', openWindow: 'OPEN — rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://www.mavensecurities.com/careers/', note: '', greenhouseSlug: 'mavensecuritiesholdingltd' },
-  { id: 'drw', name: 'DRW', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Summer 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://drw.com/careers', note: '', greenhouseSlug: 'drw' },
+  // IB - 2027 EMEA cycles (rolling; verify, then confirm)
+  { id: 'gs-emea', name: 'Goldman Sachs', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 1, url: 'https://www.goldmansachs.com/careers/students/programs-and-internships/emea/', note: 'Verify 2027 EMEA posting; once live, apply within days — fills early.' },
+  { id: 'jpm-emea', name: 'JPMorgan', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 1, url: 'https://careers.jpmorgan.com/global/en/students/programs', note: '' },
+  { id: 'citi-emea', name: 'Citi', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://jobs.citi.com/early-careers', note: '' },
+  { id: 'ms-emea', name: 'Morgan Stanley', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://www.morganstanley.com/people/early-careers', note: '' },
+  { id: 'bofa-emea', name: 'Bank of America', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://campus.bankofamerica.com/', note: '' },
+  { id: 'barclays-emea', name: 'Barclays', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://search.jobs.barclays/early-careers', note: '' },
+  { id: 'db-emea', name: 'Deutsche Bank', role: 'Summer Analyst 2027 EMEA', category: 'IB', openWindow: 'Likely open — rolling', urgencyMonth: '2026-06', priority: 1, url: 'https://careers.db.com/students/', note: 'German native is a plus.' },
+  // Quant - LIVE-integrated where possible
+  { id: 'optiver-qr', name: 'Optiver', role: 'Quant Researcher / Trading Intern 2027', category: 'Quant', openWindow: 'Rolling — verify', urgencyMonth: '2026-06', priority: 1, url: 'https://optiver.com/working-at-optiver/career-opportunities/', note: 'Amsterdam. Stretch but apply. Mention Prosperity 497/18,000.' },
+  { id: 'davinci', name: 'Da Vinci Derivatives', role: 'Quant Trading Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://www.davinciderivatives.com/careers', note: 'Amsterdam. Math/physics target.', ats: 'greenhouse', atsSlug: 'davinciderivatives', atsEu: true, verified: true },
+  { id: 'maven', name: 'Maven Securities', role: 'Trader Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-06', priority: 2, url: 'https://www.mavensecurities.com/careers/', note: '', ats: 'greenhouse', atsSlug: 'mavensecuritiesholdingltd', verified: true },
+  { id: 'drw', name: 'DRW', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Jul 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://drw.com/careers', note: '', ats: 'greenhouse', atsSlug: 'drw', verified: true },
   // Boutique IBs
-  { id: 'roth', name: 'Rothschild & Co', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://www.rothschildandco.com/en/careers/', note: 'Frankfurt + London. German strong.' },
-  { id: 'laz', name: 'Lazard', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://www.lazard.com/careers/', note: '' },
-  { id: 'eve', name: 'Evercore', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 3, url: 'https://www.evercore.com/careers/', note: '' },
-  { id: 'pjt', name: 'PJT Partners', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 3, url: 'https://pjtpartners.com/careers/', note: '' },
-  { id: 'hl', name: 'Houlihan Lokey', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://careers.hl.com/', note: 'Frankfurt office.' },
-  { id: 'cen', name: 'Centerview Partners', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 3, url: 'https://www.centerviewpartners.com/careers/', note: '' },
-  { id: 'pw', name: 'Perella Weinberg', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 3, url: 'https://www.pwpartners.com/careers/', note: '' },
-  { id: 'linc', name: 'Lincoln International', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-05', priority: 2, url: 'https://www.lincolninternational.com/careers/', note: 'Frankfurt — DACH focus.' },
+  { id: 'roth', name: 'Rothschild & Co', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.rothschildandco.com/en/careers/', note: 'Frankfurt + London. German strong.' },
+  { id: 'laz', name: 'Lazard', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.lazard.com/careers/', note: '' },
+  { id: 'eve', name: 'Evercore', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 3, url: 'https://www.evercore.com/careers/', note: '' },
+  { id: 'pjt', name: 'PJT Partners', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 3, url: 'https://pjtpartners.com/careers/', note: '' },
+  { id: 'hl', name: 'Houlihan Lokey', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://careers.hl.com/', note: 'Frankfurt office.' },
+  { id: 'cen', name: 'Centerview Partners', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 3, url: 'https://www.centerviewpartners.com/careers/', note: '' },
+  { id: 'pw', name: 'Perella Weinberg', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 3, url: 'https://www.pwpartners.com/careers/', note: '' },
+  { id: 'linc', name: 'Lincoln International', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.lincolninternational.com/careers/', note: 'Frankfurt — DACH focus.' },
   // Consulting DACH
   { id: 'mck-ch', name: 'McKinsey', role: 'Business Analyst Intern Zurich/DACH', category: 'Consulting', openWindow: 'Aug–Sep 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.mckinsey.com/careers/students', note: 'DACH cycle differs from US.' },
   { id: 'bcg-ch', name: 'BCG', role: 'Summer Associate DACH', category: 'Consulting', openWindow: 'Sep–Oct 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://careers.bcg.com/', note: '' },
-  { id: 'bain-dach', name: 'Bain & Company', role: 'Associate Consultant Intern DACH', category: 'Consulting', openWindow: 'Deadline 31 Aug 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.bain.com/careers/', note: 'Hard deadline 31 Aug.' },
+  { id: 'bain-dach', name: 'Bain & Company', role: 'Associate Consultant Intern DACH', category: 'Consulting', openWindow: 'Deadline 31 Aug 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.bain.com/careers/', note: 'Hard deadline 31 Aug — verify it holds this cycle.' },
   { id: 'ow', name: 'Oliver Wyman', role: 'Summer Intern 2027', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.oliverwymanforum.com/careers.html', note: '' },
   { id: 'rb', name: 'Roland Berger', role: 'Junior Consultant Intern', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.rolandberger.com/en/Careers/', note: 'Munich HQ. German strong.' },
   { id: 'spwc', name: 'Strategy& (PwC)', role: 'Summer Intern DACH', category: 'Consulting', openWindow: 'Aug–Oct 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://www.strategyand.pwc.com/de/en/careers.html', note: '' },
@@ -214,43 +236,45 @@ const COMPANIES = [
   { id: 'mck-insight', name: 'McKinsey Insight', role: 'Insight CH/DE 2027', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.mckinsey.com/careers/students', note: 'Built for early-year students.' },
   { id: 'bcg-step', name: 'BCG Step In', role: 'Step In Munich 2027', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://careers.bcg.com/', note: 'Early-year program.' },
   { id: 'bain-spark', name: 'Bain Experience', role: 'Spark/Experience 2027', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.bain.com/careers/', note: 'Early-year program.' },
-  // Quant - flagship (some with LIVE)
-  { id: 'js', name: 'Jane Street', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Jul 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.janestreet.com/join-jane-street/internships/', note: 'Rolling. Apply day 1.' },
-  { id: 'cit', name: 'Citadel', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.citadel.com/careers/students/', note: '' },
-  { id: 'cits', name: 'Citadel Securities', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.citadelsecurities.com/careers/students/', note: '' },
-  { id: 'ts', name: 'Two Sigma', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://careers.twosigma.com/', note: '' },
-  { id: 'des', name: 'D.E. Shaw', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://campus.deshaw.com/internships', note: '' },
-  { id: 'hrt', name: 'Hudson River Trading', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Summer 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.hudsonrivertrading.com/student-opportunities/', note: '' },
-  { id: 'imc', name: 'IMC Trading', role: 'Trading/SWE Intern 2027', category: 'Quant', openWindow: 'Opens Jul 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.imc.com/eu/careers', note: 'Amsterdam.' },
-  { id: 'jump', name: 'Jump Trading', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.jumptrading.com/careers/', note: '' },
-  { id: 'sig', name: 'SIG (Susquehanna)', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://careers.sig.com/students', note: '' },
-  { id: 'fr', name: 'Five Rings', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://fiverings.com/careers/', note: '' },
-  { id: 'tower', name: 'Tower Research', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.tower-research.com/open-positions/', note: '' },
-  { id: 'flow', name: 'Flow Traders', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://www.flowtraders.com/careers', note: 'Amsterdam.' },
+  // Quant - flagship
+  { id: 'js', name: 'Jane Street', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Jul 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.janestreet.com/join-jane-street/internships/', note: 'Rolling. Apply day 1.' },
+  { id: 'cit', name: 'Citadel', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.citadel.com/careers/students/', note: '' },
+  { id: 'cits', name: 'Citadel Securities', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.citadelsecurities.com/careers/students/', note: '' },
+  { id: 'ts', name: 'Two Sigma', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://careers.twosigma.com/', note: '' },
+  { id: 'des', name: 'D.E. Shaw', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://campus.deshaw.com/internships', note: '' },
+  { id: 'hrt', name: 'Hudson River Trading', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Summer 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.hudsonrivertrading.com/student-opportunities/', note: '', ats: 'greenhouse', atsSlug: 'wehrtyou', verified: true },
+  { id: 'imc', name: 'IMC Trading', role: 'Trading/SWE Intern 2027', category: 'Quant', openWindow: 'Opens ~Jul 2026', urgencyMonth: '2026-07', priority: 1, url: 'https://www.imc.com/eu/careers', note: 'Amsterdam. Lead with Prosperity 4 rank (497/18,000) — it is their own competition.', ats: 'greenhouse', atsSlug: 'imc', verified: true },
+  { id: 'jump', name: 'Jump Trading', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.jumptrading.com/careers/', note: '', ats: 'greenhouse', atsSlug: 'jumptrading' },
+  { id: 'sig', name: 'SIG (Susquehanna)', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://careers.sig.com/students', note: '' },
+  { id: 'fr', name: 'Five Rings', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://fiverings.com/careers/', note: '', ats: 'greenhouse', atsSlug: 'fiverings' },
+  { id: 'tower', name: 'Tower Research', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.tower-research.com/open-positions/', note: '', ats: 'greenhouse', atsSlug: 'towerresearchcapital' },
+  { id: 'flow', name: 'Flow Traders', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling intern postings', urgencyMonth: '2026-08', priority: 2, url: 'https://www.flowtraders.com/careers', note: 'Amsterdam. Also runs year-round Trading Internships (6 wks) — doable off-cycle.', ats: 'greenhouse', atsSlug: 'flowtraders', verified: true },
   { id: 'gres', name: 'G-Research', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.gresearch.com/careers/', note: 'London. Math heavy.' },
-  { id: 'sq', name: 'Squarepoint Capital', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.squarepoint-capital.com/careers', note: '' },
+  { id: 'sq', name: 'Squarepoint Capital', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.squarepoint-capital.com/careers', note: '', ats: 'greenhouse', atsSlug: 'squarepointcapital' },
   { id: 'qube', name: 'Qube Research & Tech', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.qube-rt.com/careers/', note: '' },
   { id: 'quad', name: 'Quadrature Capital', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.quadraturecapital.com/careers', note: '' },
+  { id: 'xtx', name: 'XTX Markets', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens ~Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.xtxmarkets.com/careers', note: 'London. Pure-math profile = their exact target.', ats: 'greenhouse', atsSlug: 'xtxmarketstechnologies', verified: true },
   { id: 'mw', name: 'Marshall Wace', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.mwam.com/early-careers/', note: '' },
   { id: 'man', name: 'Man Group', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.man.com/careers', note: '' },
   { id: 'aqr', name: 'AQR Capital', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.aqr.com/students', note: '' },
   { id: 'bw', name: 'Bridgewater', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.bridgewater.com/careers/students', note: '' },
   { id: 'mil', name: 'Millennium', role: 'Summer Analyst 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.mlp.com/careers/', note: '' },
-  { id: 'p72', name: 'Point72 Academy', role: 'Summer Intern 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.point72.com/students/', note: '' },
-  { id: 'old', name: 'Old Mission', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Aug 2026', urgencyMonth: '2026-08', priority: 3, url: 'https://www.oldmissioncapital.com/careers/', note: '' },
+  { id: 'p72', name: 'Point72 Academy', role: '2027 Academy Summer Internship EMEA', category: 'Quant', openWindow: 'OPEN — 2027 EMEA live', urgencyMonth: '2026-06', priority: 1, url: 'https://careers.point72.com/students/', note: 'Eligibility: graduating Dec 2027–Jul 2028 → you qualify. One global application — choose EMEA.', ats: 'greenhouse', atsSlug: 'point72', verified: true },
+  { id: 'old', name: 'Old Mission', role: 'Summer Internship 2027', category: 'Quant', openWindow: '~Aug 2026', urgencyMonth: '2026-08', priority: 3, url: 'https://www.oldmissioncapital.com/careers/', note: '', ats: 'greenhouse', atsSlug: 'oldmissioncapital' },
   // Insight programs
   { id: 'opt-ff', name: 'Optiver FutureFocus', role: 'Quants Insight Program 2027', category: 'Insight', openWindow: 'Deadline ~1 Jan 2027', urgencyMonth: '2026-11', priority: 1, url: 'https://optiver.com/working-at-optiver/internships/', note: '5-day Amsterdam. Designed for you.' },
   { id: 'js-see', name: 'Jane Street SEE', role: 'SEE / FOCUS / IN FOCUS', category: 'Insight', openWindow: 'Oct–Nov 2026', urgencyMonth: '2026-10', priority: 1, url: 'https://www.janestreet.com/join-jane-street/programs/', note: 'Early-year programs.' },
   { id: 'drw-disc', name: 'DRW Discover', role: 'Discover DRW London', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://drw.com/careers', note: '' },
-  { id: 'imc-ins', name: 'IMC Inside IMC', role: 'Inside IMC / Launchpad', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 1, url: 'https://www.imc.com/eu/careers', note: '' },
+  { id: 'imc-ins', name: 'IMC Launchpad', role: 'Launchpad / Inside IMC (Amsterdam)', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.imc.com/eu/careers', note: 'Launchpad fast-tracks into the 2027 summer internship interviews.' },
   { id: 'cit-disc', name: 'Discover Citadel', role: 'Discover Citadel Sec.', category: 'Insight', openWindow: 'Aug–Sep 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.citadel.com/careers/students/discover-citadel/', note: '' },
   { id: 'sig-disc', name: 'SIG Discovery Day', role: 'Discovery Day London', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://careers.sig.com/students', note: '' },
   { id: 'hrt-exp', name: 'HRT Explorer', role: 'Explorer Program', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.hudsonrivertrading.com/student-opportunities/', note: '' },
+  { id: 'flow-eh', name: 'Flow Traders E-House', role: 'E-House Trading Days (virtual)', category: 'Insight', openWindow: 'Year-round events', urgencyMonth: '2026-07', priority: 2, url: 'https://www.flowtraders.com/careers', note: 'Strongly recommended before applying; check their events calendar.' },
   // Swiss banks
-  { id: 'ubs-ch', name: 'UBS', role: 'Summer Internship Switzerland 2027', category: 'Swiss Bank', openWindow: 'Opens Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.ubs.com/global/en/careers/early-careers.html', note: 'Top local target.' },
+  { id: 'ubs-ch', name: 'UBS', role: 'Summer Internship Switzerland 2027', category: 'Swiss Bank', openWindow: 'Opens ~Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.ubs.com/global/en/careers/early-careers.html', note: 'Top local target.' },
   { id: 'pictet', name: 'Pictet', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Sep–Oct 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.pictet.com/global/en/careers', note: 'Geneva. French helpful.' },
-  { id: 'jb', name: 'Julius Baer', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Opens Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.juliusbaer.com/en/careers/', note: '' },
-  { id: 'vt', name: 'Vontobel', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.vontobel.com/en-ch/about-vontobel/careers/internship/', note: 'Next cycle 2027 confirmed.' },
+  { id: 'jb', name: 'Julius Baer', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Opens ~Sep 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.juliusbaer.com/en/careers/', note: '' },
+  { id: 'vt', name: 'Vontobel', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.vontobel.com/en-ch/about-vontobel/careers/internship/', note: '' },
   { id: 'zkb', name: 'ZKB', role: 'Internship', category: 'Swiss Bank', openWindow: 'Continuous', urgencyMonth: '2026-06', priority: 2, url: 'https://www.zkb.ch/de/uz/private/karriere.html', note: '' },
   { id: 'lo', name: 'Lombard Odier', role: 'Summer Internship 2027', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.lombardodier.com/home/careers.html', note: 'Geneva.' },
   { id: 'sara', name: 'J. Safra Sarasin', role: 'Internship', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.jsafrasarasin.com/content/jsafrasarasin/en/careers.html', note: 'Basel.' },
@@ -276,7 +300,7 @@ const COMPANIES = [
   { id: 'meta-u', name: 'Meta University', role: 'Meta University EMEA', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.metacareers.com/students-and-grads/', note: 'Early-year focus.' },
   { id: 'amzn', name: 'Amazon', role: 'SDE Intern 2027 EMEA', category: 'Tech', openWindow: 'Sep–Nov 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.amazon.jobs/en/teams/internships-for-students', note: '' },
   { id: 'bbg', name: 'Bloomberg', role: 'Engineering Intern London 2027', category: 'Tech', openWindow: 'Sep 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.bloomberg.com/careers/students/', note: '' },
-  { id: 'pltr', name: 'Palantir', role: 'FDSE / SWE Intern 2027', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://jobs.palantir.com/', note: 'ETH+math = their profile.' },
+  { id: 'pltr', name: 'Palantir', role: 'FDSE / SWE Intern 2027', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://jobs.palantir.com/', note: 'ETH+math = their profile.', ats: 'lever', atsSlug: 'palantir' },
   { id: 'data', name: 'Databricks', role: 'SWE Intern 2027', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 2, url: 'https://www.databricks.com/company/careers/university', note: '' },
   { id: 'snow', name: 'Snowflake', role: 'SWE Intern 2027', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://careers.snowflake.com/us/en/students', note: '' },
   { id: 'appl', name: 'Apple', role: 'SWE Intern 2027 EMEA', category: 'Tech', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 2, url: 'https://www.apple.com/careers/students/', note: '' },
@@ -293,7 +317,6 @@ const COMPANIES = [
   { id: 'eth-ai', name: 'ETH AI Center', role: 'Summer projects / fellowships', category: 'ETH', openWindow: 'Watch postings', urgencyMonth: '2026-09', priority: 2, url: 'https://ai.ethz.ch/', note: '' },
   { id: 'eth-rlab', name: 'ETH RiskLab', role: 'Research projects (Cheridito)', category: 'ETH', openWindow: 'Email anytime', urgencyMonth: '2026-09', priority: 1, url: 'https://math.ethz.ch/risklab', note: 'Math finance — direct fit.' },
   // === LONG-TAIL / SHOOT-YOUR-SHOT ===
-  // DACH M&A boutiques
   { id: 'maq', name: 'Macquarie Capital', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.macquarie.com/au/en/about/careers.html', note: 'Frankfurt + London.' },
   { id: 'drk', name: 'Drake Star Partners', role: 'Summer Intern', category: 'IB', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.drakestar.com/en/careers', note: 'Tech M&A. Munich/Frankfurt.' },
   { id: 'ala', name: 'Alantra', role: 'Summer Analyst 2027', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.alantra.com/careers/', note: 'Frankfurt mid-market M&A.' },
@@ -305,7 +328,6 @@ const COMPANIES = [
   { id: 'oddo', name: 'ODDO BHF', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.oddo-bhf.com/en/careers', note: 'Frankfurt M&A + AM.' },
   { id: 'goetz', name: 'Goetzpartners', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.goetzpartners.com/en/careers', note: 'Munich M&A + strategy advisory.' },
   { id: 'hal', name: 'Hauck Aufhäuser Lampe', role: 'Summer Intern', category: 'IB', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.hal-privatbank.com/de/karriere', note: 'Frankfurt private bank + AM.' },
-  // Swiss/Liechtenstein family offices, PE, AM
   { id: 'lgt-cp', name: 'LGT Capital Partners', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.lgtcp.com/en/about-us/careers/', note: 'Pfäffikon ZH. PE/multi-asset. Math fits.' },
   { id: 'bellevue', name: 'Bellevue Group', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.bellevue.ch/en/career', note: 'Küsnacht. Niche AM.' },
   { id: 'gam', name: 'GAM Investments', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.gam.com/en/careers', note: 'Zurich active AM.' },
@@ -319,18 +341,15 @@ const COMPANIES = [
   { id: 'llb', name: 'LLB Group', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.llb.li/en/career', note: 'Vaduz/Zurich.' },
   { id: 'raho', name: 'Rahn+Bodmer Co.', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.rahnbodmer.ch/en/career.html', note: 'Zurich, oldest Swiss private bank.' },
   { id: 'tradi', name: 'Compagnie Financière Tradition', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.tradition.com/en/careers', note: 'Lausanne interdealer broker.' },
-  // London quant / hedge funds (mid-market)
-  { id: 'xtx', name: 'XTX Markets', role: 'Summer Internship 2027', category: 'Quant', openWindow: 'Opens Aug 2026', urgencyMonth: '2026-08', priority: 1, url: 'https://www.xtxmarkets.com/careers', note: 'London. Top quant. Math = their exact target.' },
   { id: 'brevan', name: 'Brevan Howard', role: 'Summer Analyst 2027', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.brevanhoward.com/careers/', note: 'London/Geneva macro HF.' },
   { id: 'bluecrest', name: 'BlueCrest Capital', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.bluecrestcapital.com/careers/', note: 'London hedge fund.' },
   { id: 'capula', name: 'Capula Investment', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://capula.com/careers/', note: 'London fixed income/macro.' },
   { id: 'headlands', name: 'Headlands Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.headlandstech.com/careers/', note: 'Chicago/London prop.' },
   { id: 'exodus', name: 'ExodusPoint', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://exoduspoint.com/careers/', note: 'London/NY multi-strat.' },
   { id: 'volant', name: 'Volant Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://volanttrading.com/careers/', note: 'NY/London prop.' },
-  { id: 'akuna', name: 'Akuna Capital', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://akunacapital.com/careers', note: 'Chicago/London/Sydney.' },
+  { id: 'akuna', name: 'Akuna Capital', role: 'Summer Intern', category: 'Quant', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://akunacapital.com/careers', note: 'Chicago/London/Sydney.', ats: 'greenhouse', atsSlug: 'akunacapital' },
   { id: 'wolv', name: 'Wolverine Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.wolve.com/careers/', note: 'Chicago options.' },
   { id: 'belv', name: 'Belvedere Trading', role: 'Summer Intern', category: 'Quant', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.belvederetrading.com/careers/', note: 'Chicago options.' },
-  // Asset managers (London + Zurich)
   { id: 'blkrk', name: 'BlackRock', role: 'Summer Analyst 2027 EMEA', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.blackrock.com/early-careers/', note: 'Zurich + London. Largest AM globally.' },
   { id: 'vang', name: 'Vanguard', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://corporate.vanguard.com/content/corporatesite/us/en/corp/careers.html', note: 'London.' },
   { id: 'schrod', name: 'Schroders', role: 'Summer Intern 2027', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.schroders.com/en/careers/', note: 'London/Zurich AM + Capital (PE).' },
@@ -340,7 +359,6 @@ const COMPANIES = [
   { id: 'well', name: 'Wellington Management', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.wellington.com/en/careers', note: 'London/Frankfurt.' },
   { id: 'inv', name: 'Invesco', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://careers.invesco.com/students/', note: 'London/Frankfurt.' },
   { id: 'robeco', name: 'Robeco', role: 'Summer Intern', category: 'Swiss Bank', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.robeco.com/en/about-us/careers.html', note: 'Rotterdam/Zurich quant AM.' },
-  // DACH Corporate strategy/finance
   { id: 'roche', name: 'Roche', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.roche.com/global/en/early-careers', note: 'Basel pharma.' },
   { id: 'nov', name: 'Novartis', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.novartis.com/careers/students-graduates', note: 'Basel pharma.' },
   { id: 'nestle', name: 'Nestlé', role: 'Finance/Strategy Intern 2027', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.nestle.com/jobs/students-graduates', note: 'Vevey HQ.' },
@@ -351,20 +369,69 @@ const COMPANIES = [
   { id: 'six', name: 'SIX Group', role: 'Summer Intern', category: 'Corporate', openWindow: 'Rolling', urgencyMonth: '2026-07', priority: 2, url: 'https://www.six-group.com/en/careers.html', note: 'Zurich. Swiss exchange + financial data.' },
   { id: 'holcim', name: 'Holcim', role: 'Strategy Intern', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.holcim.com/careers', note: 'Zurich building materials.' },
   { id: 'bmw', name: 'BMW Group', role: 'Finance/Strategy Intern', category: 'Corporate', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.bmwgroup.jobs/de/de/karriere/studenten-und-absolventen.html', note: 'Munich.' },
-  // Big 4 transaction advisory
   { id: 'del-fa', name: 'Deloitte Financial Advisory', role: 'Summer Intern 2027', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www2.deloitte.com/ch/en/careers.html', note: 'Zurich M&A advisory.' },
   { id: 'kpmg-da', name: 'KPMG Deal Advisory', role: 'Summer Intern 2027', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://home.kpmg/ch/en/home/careers/students.html', note: 'Zurich.' },
   { id: 'am', name: 'Alvarez & Marsal', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.alvarezandmarsal.com/careers', note: 'Munich/London restructuring + PE.' },
   { id: 'alix', name: 'AlixPartners', role: 'Summer Intern', category: 'Consulting', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.alixpartners.com/careers/', note: 'Munich/Frankfurt restructuring.' },
-  // Specialty insurance / actuarial
   { id: 'hannover', name: 'Hannover Re', role: 'Actuarial/Quant Intern', category: 'Insurance', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.hannover-re.com/career', note: 'Hannover. Top 3 reinsurer.' },
   { id: 'talanx', name: 'Talanx Group', role: 'Actuarial Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.talanx.com/de/karriere', note: 'Hannover.' },
   { id: 'mercer', name: 'Mercer', role: 'Actuarial Consulting Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.mercer.com/global/en', note: 'Zurich. Actuarial + pension consulting.' },
   { id: 'wtw', name: 'WTW (Willis Towers Watson)', role: 'Actuarial Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.wtwco.com/early-careers/', note: 'Zurich/London.' },
   { id: 'aon', name: 'Aon', role: 'Actuarial/Reinsurance Intern', category: 'Insurance', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.aon.com/about/careers/', note: 'Zurich/London.' },
+
+  // ===== EU Fin — German/Benelux mid-tier where interview odds are much higher =====
+  // German banks & public institutions (German native = real edge; Praktika usually post 3–6 months pre-start)
+  { id: 'coba-return', name: 'Commerzbank', role: 'Praktikum — Markets / Risk / Quant', category: 'EU Fin', tier: 'safer', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-07', priority: 1, url: 'https://careers.commerzbank.com/', note: 'YOU INTERNED HERE. Message your old team lead for a referral before applying — internal referral roughly doubles interview odds. Best single bet on this list.' },
+  { id: 'buba', name: 'Deutsche Bundesbank', role: 'Praktikum — Markets / Risk / Research', category: 'EU Fin', tier: 'safer', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-07', priority: 1, url: 'https://www.bundesbank.de/de/karriere', note: 'Frankfurt. Loves math students; paid Praktika year-round, German required. Central-bank research brand is strong on a CV.' },
+  { id: 'kfw', name: 'KfW', role: 'Praktikum — Risk / Capital Markets', category: 'EU Fin', tier: 'safer', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 2, url: 'https://www.kfw.de/karriere/', note: 'Frankfurt. State development bank; low competition vs profile.' },
+  { id: 'dzbank', name: 'DZ Bank', role: 'Praktikum — Markets / Quant Risk', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 2, url: 'https://karriere.dzbank.de/', note: 'Frankfurt. #2 German bank; real trading floor + quant model teams.' },
+  { id: 'helaba', name: 'Helaba', role: 'Praktikum — Capital Markets / Risk', category: 'EU Fin', tier: 'safer', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 3, url: 'https://www.helaba.com/de/karriere/', note: 'Frankfurt Landesbank.' },
+  { id: 'lbbw', name: 'LBBW', role: 'Praktikum — Financial Markets', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 3, url: 'https://www.lbbw.de/karriere', note: 'Stuttgart. Active rates/FX trading.' },
+  { id: 'deka', name: 'DekaBank', role: 'Praktikum — Quant / Risk / AM', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 2, url: 'https://www.deka.de/deka-gruppe/karriere', note: 'Frankfurt. Quant model validation Praktika appear regularly.' },
+  { id: 'dboerse', name: 'Deutsche Börse Group', role: 'Internship — Eurex Quant / Risk / Data', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 1, url: 'https://careers.deutsche-boerse.com/', note: 'Eschborn/Frankfurt. English OK. Eurex risk-model and clearing-quant internships are an excellent quant-adjacent entry with far less competition than prop shops.' },
+  // German / EU asset management (quant AM = your math profile without prop-shop competition)
+  { id: 'quoniam', name: 'Quoniam Asset Management', role: 'Praktikum / Werkstudent — Quant Research', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 1, url: 'https://www.quoniam.com/en/careers/', note: 'Frankfurt, pure quant AM. Exactly your profile — math + Python + Prosperity. Far higher hit-rate than prop shops for the same skill set.' },
+  { id: 'dws', name: 'DWS', role: 'Internship — Portfolio Mgmt / Quant', category: 'EU Fin', tier: 'match', openWindow: 'Fall 2026 (summer intake)', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.dws.com/', note: 'Frankfurt. Deutsche Bank AM arm; structured internship program.' },
+  { id: 'union-inv', name: 'Union Investment', role: 'Praktikum — Portfolio Mgmt / Quant', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 2, url: 'https://union-investment.de/karriere', note: 'Frankfurt. Large German AM; quant + risk Praktika.' },
+  { id: 'lupus', name: 'Lupus alpha', role: 'Praktikum — Quant / Derivatives', category: 'EU Fin', tier: 'safer', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 3, url: 'https://www.lupusalpha.de/karriere/', note: 'Frankfurt boutique AM with derivative strategies team.' },
+  { id: 'fvs', name: 'Flossbach von Storch', role: 'Praktikum — Research / Quant', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 3, url: 'https://www.flossbachvonstorch.de/de/karriere/', note: 'Cologne. Largest independent German AM.' },
+  { id: 'assenagon', name: 'Assenagon', role: 'Praktikum — Quant Strategies', category: 'EU Fin', tier: 'match', openWindow: 'Continuous (Praktika)', urgencyMonth: '2026-10', priority: 3, url: 'https://www.assenagon.com/karriere', note: 'Munich quant AM (vol + derivative strategies).' },
+  // Fintech & data (English-friendly, fast processes)
+  { id: 'tr-fintech', name: 'Trade Republic', role: 'Intern / Working Student', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 2, url: 'https://traderepublic.com/careers', note: 'Berlin. Largest German broker; data/quant-ish working-student roles.', ats: 'greenhouse', atsSlug: 'traderepublicbank', verified: true },
+  { id: 'scalable', name: 'Scalable Capital', role: 'Intern / Working Student', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 2, url: 'https://de.scalable.capital/en/careers', note: 'Munich. Broker + robo-advisor; data and capital-markets interns.', ats: 'greenhouse', atsSlug: 'scalablecapital' },
+  { id: 'spglobal', name: 'S&P Global', role: 'Internship — Ratings / Analytics', category: 'EU Fin', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://careers.spglobal.com/early-careers', note: 'Frankfurt office. Credit analytics fits math background.' },
+  { id: 'msci', name: 'MSCI', role: 'Internship — Quant Analytics / Index', category: 'EU Fin', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://careers.msci.com/', note: 'Frankfurt/Geneva/Budapest. Risk + index quant roles.' },
+  // Benelux banks & pensions (famous for accessible, well-paid quant internships; English)
+  { id: 'ing-quant', name: 'ING', role: 'Quant Internship — Model Validation / FM', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 1, url: 'https://www.ing.jobs/global/students.htm', note: 'Amsterdam. ING quant internships (model validation, financial markets) are a classic stepping stone for math students — paid, English, rolling.' },
+  { id: 'abn', name: 'ABN AMRO', role: 'Quant / Risk Internship', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-08', priority: 2, url: 'https://www.werkenbijabnamro.nl/en/vacancies', note: 'Amsterdam. Quant model-risk internships; English OK.' },
+  { id: 'rabo', name: 'Rabobank', role: 'Quant / Risk Internship', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-08', priority: 3, url: 'https://rabobank.jobs/en/', note: 'Utrecht. Quantitative risk analytics internships.' },
+  { id: 'apg', name: 'APG Asset Management', role: 'Quant Internship', category: 'EU Fin', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 3, url: 'https://www.apg.nl/en/career/', note: 'Amsterdam. €500bn+ pension quant; student-friendly.' },
+  // Quant & risk consulting (math-student heaven; interviews are technical, not case-based)
+  { id: 'dfine', name: 'd-fine', role: 'Praktikum / Internship — Quant Consulting', category: 'Consulting', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 1, url: 'https://www.d-fine.com/en/careers/', note: 'Frankfurt + Zurich. THE consultancy built on math/physics students — hires interns year-round, interview is brainteasers + math, not cases. Probably your single highest interview-probability consulting option.' },
+  { id: 'finbridge', name: 'Finbridge', role: 'Praktikum — Financial Engineering', category: 'Consulting', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.finbridge.de/karriere', note: 'Frankfurt. Small quant/risk consultancy; low competition.' },
+  { id: 'zanders', name: 'Zanders', role: 'Internship — Treasury / Risk Consulting', category: 'Consulting', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://zandersgroup.com/en/careers', note: 'Frankfurt/Amsterdam/Zurich. Quant risk + treasury consulting.' },
+  { id: 'capco', name: 'Capco', role: 'Internship — Financial Services Consulting', category: 'Consulting', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.capco.com/careers', note: 'Frankfurt/Zurich. FS-only consultancy.' },
+  { id: 'synpulse', name: 'Synpulse', role: 'Internship — Banking Consulting', category: 'Consulting', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.synpulse.com/en/careers', note: 'Zurich. Banking/insurance consulting; hires ETH students regularly.' },
+  { id: 'horvath', name: 'Horváth', role: 'Praktikum — Financial Industries', category: 'Consulting', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.horvath-partners.com/de/karriere', note: 'Stuttgart/Zurich. Mid-tier strategy; German strong.' },
+  { id: 'ortec', name: 'ORTEC Finance', role: 'Internship — Quant Modelling', category: 'Consulting', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.ortecfinance.com/en/about-us/careers', note: 'Rotterdam. Econometric/quant modelling firm; math-heavy.' },
+  { id: 'ey-quant', name: 'EY — Quant & Risk Advisory', role: 'Internship — FS Risk / Quant', category: 'Consulting', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-08', priority: 2, url: 'https://www.ey.com/en_gl/careers/students', note: 'Frankfurt/Zurich. Big-4 quant teams (model validation, FRM) interview far below MBB bar; strong CV signal + exit options.' },
+  { id: 'pwc-risk', name: 'PwC — Risk Modelling', role: 'Internship — Risk Modelling / Quant', category: 'Consulting', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-08', priority: 2, url: 'https://www.pwc.de/de/karriere.html', note: 'Frankfurt/Zurich. Risk-modelling services team hires math interns continuously.' },
+  { id: 'kpmg-frm', name: 'KPMG — Financial Risk Mgmt', role: 'Internship — FRM / Quant', category: 'Consulting', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-08', priority: 3, url: 'https://kpmg.com/de/de/home/karriere.html', note: 'Frankfurt/Zurich. Quant FRM Praktika; German helps.' },
+  // Mid-tier prop / market making (a real tier below Optiver/IMC in selectivity)
+  { id: 'alloptions', name: 'All Options', role: 'Trading Internship / Traineeship', category: 'Quant', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://alloptions.nl/careers/', note: 'Amsterdam options MM. Noticeably less selective than Optiver/IMC; Prosperity rank is a strong differentiator here.' },
+  { id: 'webb', name: 'WEBB Traders', role: 'Trading / Quant Internship', category: 'Quant', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.webbtraders.com/careers', note: 'Amsterdam MM. Mid-tier; values competition results.' },
+  { id: 'mako', name: 'Mako Trading', role: 'Trading Internship', category: 'Quant', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 3, url: 'https://www.mako.com/careers/', note: 'London options MM (vol focus). Less applicant volume than the big names.' },
+  // Swiss accessible
+  { id: 'postfin', name: 'PostFinance', role: 'Praktikum / Internship', category: 'Swiss Bank', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.postfinance.ch/karriere', note: 'Bern. Big retail bank; data/risk Praktika, low competition.' },
+  { id: 'raiffch', name: 'Raiffeisen Schweiz', role: 'Praktikum — Risk / Treasury', category: 'Swiss Bank', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-10', priority: 3, url: 'https://www.raiffeisen.ch/karriere', note: 'St. Gallen/Zurich. #3 Swiss banking group.' },
+  { id: 'swissquote', name: 'Swissquote', role: 'Internship — Quant / Data', category: 'Swiss Bank', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 2, url: 'https://en.swissquote.com/careers', note: 'Gland/Zurich. Online bank with real quant + algo teams.' },
+  { id: 'avaloq', name: 'Avaloq', role: 'Internship / Working Student', category: 'Tech', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 3, url: 'https://www.avaloq.com/careers', note: 'Zurich. Banking software; hires ETH students readily.' },
+  // Insurance / actuarial (math = exactly what they want; far less competitive per applicant)
+  { id: 'allianz-se', name: 'Allianz', role: 'Internship — Actuarial / Risk (Group)', category: 'Insurance', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.allianz.com/', note: 'Munich. Group actuarial + risk Praktika; Dell + Commerzbank corporate experience reads well here.' },
+  { id: 'axa-ch', name: 'AXA Switzerland', role: 'Internship — Actuarial / Data', category: 'Insurance', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 3, url: 'https://www.axa.ch/en/about-axa/jobs-career.html', note: 'Winterthur — 25 min from ETH. Actuarial/data internships; very student-friendly.' },
 ];
 
-const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'Insurance', 'Commodities', 'Tech', 'Corporate', 'ETH'];
+const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'EU Fin', 'Insurance', 'Commodities', 'Tech', 'Corporate', 'ETH'];
 
 const STATUSES = {
   todo: { label: 'To Do', color: '#0F1419', bg: '#F8F5EE' },
@@ -378,16 +445,30 @@ const STATUSES = {
 
 const CAT_COLORS = {
   IB: '#0F4C75', Consulting: '#7C3AED', Quant: '#C84B31', Insight: '#D97706',
-  'Swiss Bank': '#15803D', Insurance: '#0E7490', Commodities: '#A16207',
+  'Swiss Bank': '#15803D', 'EU Fin': '#B45309', Insurance: '#0E7490', Commodities: '#A16207',
   Tech: '#1F2937', Corporate: '#831843', ETH: '#9333EA',
+};
+
+/* Tier = honest odds estimate for a 1st-year ETH math profile.
+   reach  — elite quant / MBB / BB IB: apply, but expect low hit-rates.
+   match  — solid programs where the profile genuinely competes.
+   safer  — high interview probability (referrals, Praktika, Big-4 quant, public sector).
+   Explicit `tier` on an entry wins; otherwise inferred from category. */
+const TIER_BY_CAT = { Quant: 'reach', IB: 'reach', Consulting: 'reach', Insight: 'reach', Tech: 'reach', 'Swiss Bank': 'match', 'EU Fin': 'match', Insurance: 'match', Commodities: 'match', Corporate: 'match', ETH: 'safer' };
+const tierOf = (c) => c.tier || TIER_BY_CAT[c.category] || 'match';
+const TIER_META = {
+  reach: { label: 'Reach', color: '#B91C1C', bg: '#FEF2F2' },
+  match: { label: 'Match', color: '#15803D', bg: '#F0FAF3' },
+  safer: { label: 'Safer', color: '#1D4ED8', bg: '#EFF6FF' },
 };
 
 const EXTERNAL_ALERTS = [
   { id: 'li1', label: 'LinkedIn job alert: "summer 2027 intern" Zurich', url: 'https://www.linkedin.com/jobs/search/?keywords=summer%202027%20intern&location=Zurich' },
   { id: 'li2', label: 'LinkedIn job alert: "summer 2027 intern" London', url: 'https://www.linkedin.com/jobs/search/?keywords=summer%202027%20intern&location=London' },
   { id: 'li3', label: 'LinkedIn job alert: "summer 2027 intern" Frankfurt', url: 'https://www.linkedin.com/jobs/search/?keywords=summer%202027%20intern&location=Frankfurt' },
+  { id: 'li4', label: 'LinkedIn job alert: "spring week 2027" / "insight programme"', url: 'https://www.linkedin.com/jobs/search/?keywords=insight%20programme%202027' },
   { id: 'efc', label: 'eFinancialCareers Switzerland alerts', url: 'https://www.efinancialcareers.ch/en/' },
-  { id: 'trk', label: 'Trackr.io — finance internship deadlines', url: 'https://app.the-trackr.com/' },
+  { id: 'trk', label: 'Trackr.io — finance internship deadlines (UK/EU)', url: 'https://app.the-trackr.com/' },
   { id: 'oq', label: 'OpenQuant.co — quant role feed', url: 'https://openquant.co/?level=Internship' },
   { id: 'hs', label: 'ETH Career Center portal', url: 'https://ethz.ch/students/en/career.html' },
   { id: 'ssg', label: 'Studienstiftung internship board (your scholarship!)', url: 'https://www.studienstiftung.de/' },
@@ -397,49 +478,59 @@ const EXTERNAL_ALERTS = [
    STATE & STORAGE
    ============================================================ */
 
-const STORAGE_KEY = 'eth-internship-tracker-v2';
+const STORAGE_KEY = 'eth-internship-tracker-v3';
 const LIVE_CACHE_TTL = 3600000; // 1 hour
+const CONFIRM_FRESH_DAYS = 45;  // a manual "confirmed open" stays valid this long
 
 const loadData = () => {
   try {
-    // Try v2 first
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-    // Migrate from v1
-    const oldRaw = localStorage.getItem('eth-internship-tracker-v1');
-    if (oldRaw) {
-      const parsed = JSON.parse(oldRaw);
-      const migrated = { apps: parsed.apps || {}, alerts: parsed.alerts || {}, live: {} };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
-      return migrated;
+    // Migrate v1/v2: keep apps + alerts, rebuild live cache
+    for (const oldKey of ['eth-internship-tracker-v2', 'eth-internship-tracker-v1']) {
+      const oldRaw = localStorage.getItem(oldKey);
+      if (oldRaw) {
+        const parsed = JSON.parse(oldRaw);
+        const migrated = { apps: parsed.apps || {}, alerts: parsed.alerts || {}, live: {}, lastFullRefresh: null };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+        return migrated;
+      }
     }
-    return { apps: {}, alerts: {}, live: {} };
-  } catch { return { apps: {}, alerts: {}, live: {} }; }
+    return { apps: {}, alerts: {}, live: {}, lastFullRefresh: null };
+  } catch { return { apps: {}, alerts: {}, live: {}, lastFullRefresh: null }; }
 };
 
 const saveData = (d) => {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch (e) { console.error(e); }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+  catch (e) {
+    // Quota: drop the largest part of the cache (seen-URL sets) and retry once
+    try {
+      Object.values(d.live || {}).forEach(v => { if (v && v.seen) v.seen = v.seen.slice(-60); });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    } catch (e2) { console.error(e2); }
+  }
 };
 
 let state = {
   data: loadData(),
   view: 'dashboard',
   filter: 'All',
+  tierFilter: 'all',
   statusFilter: 'all',
   search: '',
   openCard: null,
   editingNote: null,
   noteDraft: '',
-  liveFetching: {}, // tracks in-progress fetches
+  liveFetching: {},
+  showAllVerify: false,
 };
 
 const persist = () => saveData(state.data);
 const setState = (patch) => { Object.assign(state, patch); render(); };
 
-const updateApp = (id, patch) => {
+const updateApp = (id, patch, opts) => {
   state.data.apps[id] = { ...(state.data.apps[id] || {}), ...patch };
-  persist();
-  render();
+  if (!opts || !opts.silent) { persist(); render(); }
 };
 
 const toggleAlert = (id) => {
@@ -450,7 +541,7 @@ const toggleAlert = (id) => {
 
 const resetAll = () => {
   if (confirm('Reset all tracking data? This cannot be undone.')) {
-    state.data = { apps: {}, alerts: {}, live: {} };
+    state.data = { apps: {}, alerts: {}, live: {}, lastFullRefresh: null };
     persist();
     render();
   }
@@ -478,7 +569,7 @@ const importData = () => {
         const parsed = JSON.parse(ev.target.result);
         if (parsed && typeof parsed === 'object' && parsed.apps !== undefined) {
           if (confirm('Import data and overwrite current state?')) {
-            state.data = { apps: parsed.apps || {}, alerts: parsed.alerts || {}, live: parsed.live || {} };
+            state.data = { apps: parsed.apps || {}, alerts: parsed.alerts || {}, live: parsed.live || {}, lastFullRefresh: parsed.lastFullRefresh || null };
             persist(); render();
           }
         } else { alert('Invalid file format.'); }
@@ -490,102 +581,118 @@ const importData = () => {
 };
 
 /* ============================================================
-   GREENHOUSE LIVE API
+   LIVE DATA — multi-ATS (Greenhouse / Greenhouse EU / Lever)
+   These public job-board APIs allow cross-origin requests, so
+   the page can fetch them directly from GitHub Pages.
    ============================================================ */
 
-async function fetchGreenhouseJobs(slug, isEu = false) {
-  const cacheKey = slug + (isEu ? ':eu' : '');
-  const cached = state.data.live[cacheKey];
-  if (cached && (Date.now() - cached.time < LIVE_CACHE_TTL)) {
-    return { data: cached.data, fromCache: true };
-  }
-  const base = isEu ? 'https://boards-api.eu.greenhouse.io' : 'https://boards-api.greenhouse.io';
-  const url = `${base}/v1/boards/${slug}/jobs?content=true`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    const allJobs = (json.jobs || []).map(j => ({
-      title: j.title || '',
-      location: (j.location && j.location.name) || '',
-      url: j.absolute_url || '',
-      updated: j.updated_at || '',
-    }));
-    const data = { total: allJobs.length, jobs: allJobs, fetchedAt: new Date().toISOString() };
-    state.data.live[cacheKey] = { time: Date.now(), data };
-    persist();
-    return { data, fromCache: false };
-  } catch (e) {
-    return { error: e.message || 'Fetch failed' };
-  }
+// Title looks like an early-careers role?
+const INC_RE = /intern|summer|spring|insight|discover|launchpad|futurefocus|future ?focus|graduate|trainee|early.?career|off.?cycle|working student|werkstudent|new grad|campus|ascent|e-?house|2027/i;
+const EXC_RE = /\b(phd|ph\.d|senior|principal|director|head of|vp\b|recruiter)\b/i;
+// Locations most useful from Zurich
+const EU_RE = /amsterdam|london|zurich|zürich|zug|geneva|frankfurt|paris|dublin|madrid|milan|stockholm|copenhagen|aarhus|europe|emea|netherlands|switzerland|germany|austria|united kingdom|\buk\b|remote/i;
+
+function isEarlyCareer(title) {
+  if (/intern/i.test(title)) return !/\bphd\b|\bph\.d\b/i.test(title);
+  return INC_RE.test(title) && !EXC_RE.test(title);
 }
 
-function filterInternshipJobs(jobs) {
-  if (!jobs) return [];
-  const kw = /intern|graduate|summer|trainee|2027|early career|junior|new grad/i;
-  return jobs.filter(j => kw.test(j.title));
+function rankJobs(jobs) {
+  // EU-relevant roles first, then by recency
+  return jobs.slice().sort((a, b) => {
+    const ae = EU_RE.test(a.location || '') ? 0 : 1;
+    const be = EU_RE.test(b.location || '') ? 0 : 1;
+    if (ae !== be) return ae - be;
+    return (b.updated || '').localeCompare(a.updated || '');
+  });
 }
+
+async function fetchBoard(c) {
+  const key = c.id;
+  const prev = state.data.live[key];
+  if (prev && prev.ok && (Date.now() - prev.time < LIVE_CACHE_TTL)) return prev;
+
+  let jobs = null, total = 0;
+  try {
+    if (c.ats === 'lever') {
+      const res = await fetch('https://api.lever.co/v0/postings/' + c.atsSlug + '?mode=json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const arr = await res.json();
+      total = arr.length;
+      jobs = arr.map(j => ({
+        title: j.text || '',
+        location: (j.categories && j.categories.location) || '',
+        url: j.hostedUrl || '',
+        updated: j.createdAt ? new Date(j.createdAt).toISOString() : '',
+      }));
+    } else {
+      const base = c.atsEu ? 'https://boards-api.eu.greenhouse.io' : 'https://boards-api.greenhouse.io';
+      const res = await fetch(base + '/v1/boards/' + c.atsSlug + '/jobs');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      const all = json.jobs || [];
+      total = all.length;
+      jobs = all.map(j => ({
+        title: j.title || '',
+        location: (j.location && j.location.name) || '',
+        url: j.absolute_url || '',
+        updated: j.updated_at || '',
+      }));
+    }
+  } catch (e) {
+    const entry = { time: Date.now(), ok: false, error: String(e && e.message || e), seen: (prev && prev.seen) || [] };
+    state.data.live[key] = entry;
+    return entry;
+  }
+
+  const matches = rankJobs(jobs.filter(j => isEarlyCareer(j.title))).slice(0, 40);
+  const prevSeen = new Set((prev && prev.seen) || []);
+  const hadPrev = prev && prev.seen && prev.seen.length > 0;
+  matches.forEach(m => { m.isNew = hadPrev && !prevSeen.has(m.url); });
+  const newCount = matches.filter(m => m.isNew).length;
+  const seen = Array.from(new Set([...((prev && prev.seen) || []), ...matches.map(m => m.url)])).slice(-200);
+
+  const entry = { time: Date.now(), ok: true, total, matches, newCount, seen };
+  state.data.live[key] = entry;
+  return entry;
+}
+
+const liveFirms = () => COMPANIES.filter(c => c.atsSlug);
 
 async function refreshLiveData() {
-  const liveCompanies = COMPANIES.filter(c => c.greenhouseSlug);
-  for (const c of liveCompanies) {
-    state.liveFetching[c.id] = true;
-  }
+  const firms = liveFirms();
+  firms.forEach(c => { state.liveFetching[c.id] = true; });
   render();
-  await Promise.all(liveCompanies.map(async (c) => {
-    await fetchGreenhouseJobs(c.greenhouseSlug, c.greenhouseEu);
+  await Promise.all(firms.map(async (c) => {
+    const entry = await fetchBoard(c);
     state.liveFetching[c.id] = false;
-    // Auto-mark as verified
-    if (state.data.live[c.greenhouseSlug + (c.greenhouseEu ? ':eu' : '')]?.data) {
-      updateApp(c.id, { lastChecked: new Date().toISOString() });
-    }
+    if (entry.ok) updateApp(c.id, { lastChecked: new Date().toISOString() }, { silent: true });
   }));
+  state.data.lastFullRefresh = new Date().toISOString();
+  persist();
   render();
 }
 
 async function refreshSingleLive(id) {
   const c = COMPANIES.find(x => x.id === id);
-  if (!c?.greenhouseSlug) return;
+  if (!c || !c.atsSlug) return;
   state.liveFetching[id] = true;
   render();
-  await fetchGreenhouseJobs(c.greenhouseSlug, c.greenhouseEu);
+  // Force refetch by expiring the cache for this firm
+  if (state.data.live[id]) state.data.live[id].time = 0;
+  const entry = await fetchBoard(c);
   state.liveFetching[id] = false;
-  updateApp(id, { lastChecked: new Date().toISOString() });
+  if (entry.ok) updateApp(id, { lastChecked: new Date().toISOString() }, { silent: true });
+  persist();
+  render();
 }
 
 /* ============================================================
-   VERIFY & BATCH OPEN
-   ============================================================ */
-
-const verifyAndOpen = (id, url) => {
-  window.open(url, '_blank', 'noopener,noreferrer');
-  updateApp(id, { lastChecked: new Date().toISOString() });
-};
-
-const batchOpenUrgent = () => {
-  const urgent = COMPANIES.map(enrich)
-    .filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) <= 1)
-    .sort((a, b) => (a.priority - b.priority) || (a.urgencyMonth.localeCompare(b.urgencyMonth)))
-    .slice(0, 5);
-  if (urgent.length === 0) { alert('Nothing urgent to open.'); return; }
-  let blocked = 0;
-  const now = new Date().toISOString();
-  urgent.forEach((c, i) => {
-    setTimeout(() => {
-      const w = window.open(c.url, '_blank', 'noopener,noreferrer');
-      if (!w) blocked++;
-      state.data.apps[c.id] = { ...(state.data.apps[c.id] || {}), lastChecked: now };
-      if (i === urgent.length - 1) {
-        persist();
-        if (blocked > 0) alert(`Your browser blocked ${blocked} popup(s). Allow popups for this page and try again.`);
-        render();
-      }
-    }, i * 100);
-  });
-};
-
-/* ============================================================
-   UTILITIES
+   ATTENTION ENGINE
+   A firm only lands in "Open now" when something real says so:
+   either its live board shows matching roles, or you confirmed
+   it yourself. Static window guesses can at most ask you to
+   verify — they can never claim a firm is open.
    ============================================================ */
 
 const CURRENT_REF = new Date();
@@ -596,33 +703,116 @@ const monthsFromNow = (mStr) => {
 
 const daysSince = (iso) => {
   if (!iso) return null;
-  const then = new Date(iso).getTime();
-  return Math.floor((Date.now() - then) / 86400000);
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
 };
+
+const liveStatus = (c) => {
+  if (!c.atsSlug) return 'none';            // no integration
+  const entry = state.data.live[c.id];
+  if (!entry) return 'unknown';             // never fetched
+  if (!entry.ok) return 'error';            // board unreachable / slug moved
+  return entry.matches.length > 0 ? 'open' : 'quiet';
+};
+
+const enrich = (c) => {
+  const app = state.data.apps[c.id] || {};
+  const live = liveStatus(c);
+  const confirmAge = daysSince(app.confirmedOpenAt);
+  const confirmedOpen = confirmAge !== null && confirmAge <= CONFIRM_FRESH_DAYS;
+  return {
+    ...c,
+    tier: tierOf(c),
+    status: app.status || 'todo',
+    userNote: app.note || '',
+    appliedDate: app.appliedDate,
+    lastChecked: app.lastChecked,
+    confirmedOpenAt: app.confirmedOpenAt,
+    confirmedOpen,
+    live,
+    liveEntry: state.data.live[c.id],
+  };
+};
+
+// Buckets: open_now | verify | monitoring | coming_up | later | done
+function bucketOf(c) {
+  if (['applied', 'interview', 'offer', 'rejected', 'skipped'].includes(c.status)) return 'done';
+  if (c.live === 'open') return 'open_now';                 // live board has matching roles → real signal
+  if (c.confirmedOpen) return 'open_now';                   // you verified it yourself recently
+  if (c.status === 'not_open') return 'monitoring';         // you checked: cycle not posted
+  if (c.live === 'quiet') return 'monitoring';              // live board fetched, nothing matching → auto-monitor
+  const m = monthsFromNow(c.urgencyMonth);
+  if (m <= 1) return 'verify';                              // window says open/near, but nothing confirms it
+  if (m <= 4) return 'coming_up';
+  return 'later';
+}
+
+const byPriorityThenMonth = (a, b) => (a.priority - b.priority) || a.urgencyMonth.localeCompare(b.urgencyMonth);
+const byMonthThenPriority = (a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth) || (a.priority - b.priority);
+
+function buckets() {
+  const all = COMPANIES.map(enrich);
+  const out = { open_now: [], verify: [], monitoring: [], coming_up: [], later: [], done: [] };
+  all.forEach(c => out[bucketOf(c)].push(c));
+  out.open_now.sort((a, b) => {
+    const an = (a.liveEntry && a.liveEntry.newCount) || 0;
+    const bn = (b.liveEntry && b.liveEntry.newCount) || 0;
+    if (an !== bn) return bn - an;
+    return byPriorityThenMonth(a, b);
+  });
+  out.verify.sort(byPriorityThenMonth);
+  out.monitoring.sort(byPriorityThenMonth);
+  out.coming_up.sort(byMonthThenPriority);
+  out.later.sort(byMonthThenPriority);
+  return out;
+}
 
 const escapeHtml = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-const enrich = (c) => ({
-  ...c,
-  status: state.data.apps[c.id]?.status || 'todo',
-  userNote: state.data.apps[c.id]?.note || '',
-  appliedDate: state.data.apps[c.id]?.appliedDate,
-  lastChecked: state.data.apps[c.id]?.lastChecked,
-});
-
 const verifyLabel = (c) => {
-  const isUrgentish = monthsFromNow(c.urgencyMonth) <= 2;
-  const isMonitoring = c.status === 'not_open';
-  const d = daysSince(c.lastChecked);
-  if (d === null) {
-    return { text: c.greenhouseSlug ? 'Live data not loaded' : (isMonitoring ? 'Not checked yet — verify cycle status' : 'Not verified'), cls: (isUrgentish || isMonitoring) ? 'stale' : '' };
+  if (c.live === 'open') {
+    const e = c.liveEntry;
+    return { text: 'Live board: ' + e.matches.length + ' matching role' + (e.matches.length === 1 ? '' : 's') + (e.newCount ? ' (' + e.newCount + ' new)' : ''), cls: 'fresh' };
   }
+  if (c.live === 'quiet') return { text: 'Live board: no matching roles yet', cls: '' };
+  if (c.live === 'error') return { text: 'Live board unreachable — verify manually', cls: 'stale' };
+  if (c.confirmedOpen) return { text: 'You confirmed open ' + daysSince(c.confirmedOpenAt) + 'd ago', cls: 'fresh' };
+  const d = daysSince(c.lastChecked);
+  const isMonitoring = c.status === 'not_open';
+  if (d === null) return { text: isMonitoring ? 'Not checked yet' : 'Not verified', cls: 'stale' };
   if (d === 0) return { text: 'Checked today', cls: 'fresh' };
   if (d === 1) return { text: 'Checked yesterday', cls: 'fresh' };
-  if (d <= 6) return { text: `Checked ${d}d ago`, cls: 'fresh' };
-  if (isMonitoring) return { text: `Checked ${d}d ago — recheck weekly`, cls: 'stale' };
-  if (d <= 13) return { text: `Verified ${d}d ago`, cls: '' };
-  return { text: `Verified ${d}d ago — stale`, cls: isUrgentish ? 'stale' : '' };
+  if (d <= 6) return { text: 'Checked ' + d + 'd ago', cls: 'fresh' };
+  if (isMonitoring) return { text: 'Checked ' + d + 'd ago — recheck weekly', cls: 'stale' };
+  return { text: 'Verified ' + d + 'd ago — stale', cls: 'stale' };
+};
+
+/* ============================================================
+   VERIFY & BATCH OPEN
+   ============================================================ */
+
+const verifyAndOpen = (id, url) => {
+  window.open(url, '_blank', 'noopener,noreferrer');
+  updateApp(id, { lastChecked: new Date().toISOString() });
+};
+
+const batchOpenVerify = () => {
+  const b = buckets();
+  const targets = b.verify.slice(0, 5);
+  if (targets.length === 0) { alert('Nothing to verify right now.'); return; }
+  let blocked = 0;
+  const now = new Date().toISOString();
+  targets.forEach((c, i) => {
+    setTimeout(() => {
+      const w = window.open(c.url, '_blank', 'noopener,noreferrer');
+      if (!w) blocked++;
+      state.data.apps[c.id] = { ...(state.data.apps[c.id] || {}), lastChecked: now };
+      if (i === targets.length - 1) {
+        persist();
+        if (blocked > 0) alert('Your browser blocked ' + blocked + ' popup(s). Allow popups for this page and try again.');
+        render();
+      }
+    }, i * 100);
+  });
 };
 
 /* ============================================================
@@ -652,46 +842,41 @@ const icons = {
 
 function render() {
   const root = document.getElementById('root');
-  const stats = computeStats();
-  root.innerHTML = `
-    <div class="app">
-      ${headerHtml(stats)}
-      ${tabsHtml()}
-      <main><div class="wrap">${viewHtml()}</div></main>
-    </div>
-  `;
+  root.innerHTML = '<div class="app">' + headerHtml() + tabsHtml() + '<main><div class="wrap">' + viewHtml() + '</div></main></div>';
   attachListeners();
+  // Keep sticky tabs flush under the header at any header height (mobile-safe)
+  const header = root.querySelector('.header');
+  const tabs = root.querySelector('.tabs');
+  if (header && tabs) tabs.style.top = header.offsetHeight + 'px';
 }
 
 function computeStats() {
   const all = COMPANIES.map(enrich);
-  const s = { total: all.length, todo: 0, applied: 0, interview: 0, offer: 0, rejected: 0, skipped: 0 };
+  const s = { total: all.length, todo: 0, not_open: 0, applied: 0, interview: 0, offer: 0, rejected: 0, skipped: 0 };
   all.forEach(c => { s[c.status] = (s[c.status] || 0) + 1; });
   return s;
 }
 
-function headerHtml(stats) {
-  return `
-    <header class="header"><div class="wrap"><div class="header-inner">
-      <div>
-        <div class="kicker">Internship Tracker · Summer 2027</div>
-        <h1 class="title">Command Center</h1>
-      </div>
-      <div class="mono" style="font-size:11px;color:#8B7355">${stats.applied + stats.interview + stats.offer}/${stats.total} submitted</div>
-    </div></div></header>
-  `;
+function headerHtml() {
+  const stats = computeStats();
+  return '<header class="header"><div class="wrap"><div class="header-inner">'
+    + '<div><div class="kicker">Internship Tracker · Summer 2027</div>'
+    + '<h1 class="title">Command Center</h1></div>'
+    + '<div class="mono" style="font-size:11px;color:#8B7355">' + (stats.applied + stats.interview + stats.offer) + '/' + stats.total + ' submitted</div>'
+    + '</div></div></header>';
 }
 
 function tabsHtml() {
+  const b = buckets();
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: 'trending' },
+    { id: 'dashboard', label: 'Dashboard', icon: 'trending', count: b.open_now.length },
     { id: 'all', label: 'All Firms', icon: 'briefcase' },
     { id: 'submitted', label: 'Submitted', icon: 'check' },
-    { id: 'alerts', label: 'Alerts Setup', icon: 'bell' },
+    { id: 'alerts', label: 'Alerts & Live', icon: 'bell' },
   ];
-  return `<nav class="tabs"><div class="wrap"><div class="tabs-inner">
-    ${tabs.map(t => `<button class="tab ${state.view === t.id ? 'active' : ''}" data-tab="${t.id}">${icons[t.icon]} ${t.label}</button>`).join('')}
-  </div></div></nav>`;
+  return '<nav class="tabs"><div class="wrap"><div class="tabs-inner">'
+    + tabs.map(t => '<button class="tab ' + (state.view === t.id ? 'active' : '') + '" data-tab="' + t.id + '">' + icons[t.icon] + ' ' + t.label + (t.count ? ' <span class="tab-count">' + t.count + '</span>' : '') + '</button>').join('')
+    + '</div></div></nav>';
 }
 
 function viewHtml() {
@@ -703,267 +888,263 @@ function viewHtml() {
 }
 
 function dashboardHtml() {
-  const stats = computeStats();
-  const all = COMPANIES.map(enrich);
-  const urgent = all.filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) <= 1)
-    .sort((a, b) => (a.priority - b.priority) || a.urgencyMonth.localeCompare(b.urgencyMonth));
-  const upcoming = all.filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) > 1 && monthsFromNow(c.urgencyMonth) <= 4)
-    .sort((a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth) || (a.priority - b.priority));
-  const monitoring = all.filter(c => c.status === 'not_open')
-    .sort((a, b) => (a.priority - b.priority) || a.urgencyMonth.localeCompare(b.urgencyMonth));
-  const later = all.filter(c => c.status === 'todo' && monthsFromNow(c.urgencyMonth) > 4)
-    .sort((a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth));
-
-  const liveCount = COMPANIES.filter(c => c.greenhouseSlug).length;
+  const b = buckets();
+  const liveCount = liveFirms().length;
   const fetching = Object.values(state.liveFetching).some(Boolean);
+  const lastRefresh = state.data.lastFullRefresh ? new Date(state.data.lastFullRefresh).toLocaleString() : 'never';
+  const totalNew = liveFirms().reduce((n, c) => n + ((state.data.live[c.id] && state.data.live[c.id].newCount) || 0), 0);
 
-  return `
-    <div class="disclaimer">
-      <div class="disclaimer-title">⚠ Data freshness</div>
-      <div class="disclaimer-body">
-        Static fields (deadlines, opening windows) are based on prior cycles and may be off by weeks. ${liveCount} firms have <strong>LIVE</strong> integration via Greenhouse API showing current open postings. For all other firms, use the "Verify & Open" button to mark when you last confirmed the careers page yourself. For firms where the 2027 cycle hasn't appeared yet, mark them <strong>"Not Open Yet"</strong> — they move to a separate Monitoring section and prompt weekly rechecks.
-      </div>
-    </div>
+  const verifyShown = state.showAllVerify ? b.verify : b.verify.slice(0, 8);
 
-    <div class="batch-bar">
-      <div class="batch-bar-text">
-        <strong>${urgent.length}</strong> urgent · 
-        <strong>${monitoring.length}</strong> monitoring · 
-        <strong>${liveCount}</strong> live · 
-        Quick actions:
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="batch-btn" id="batch-open-btn" ${urgent.length === 0 ? 'disabled style="opacity:0.4"' : ''}>${icons.zap} Open top 5 urgent</button>
-        <button class="batch-btn secondary" id="refresh-live-btn">${fetching ? '<span class="spin">⟳</span>' : icons.refresh} Refresh live data</button>
-      </div>
-    </div>
+  return ''
+    + '<div class="disclaimer">'
+    +   '<div class="disclaimer-title">How attention works now</div>'
+    +   '<div class="disclaimer-body">A firm only appears in <strong>Open now</strong> when its live job board actually shows a matching intern/insight role (' + liveCount + ' firms are wired to Greenhouse/Lever APIs), or when you pressed "Confirmed open" after checking yourself. Date-based guesses can only ask you to <strong>verify</strong> — they can no longer fake urgency. Firms whose live board shows nothing relevant are parked in Monitoring automatically.</div>'
+    + '</div>'
 
-    <div class="stats">
-      ${[['todo','To do','#0F1419'],['applied','Applied','#2563EB'],['interview','Interview','#7C3AED'],['offer','Offer','#15803D']].map(([k,l,c]) => `
-        <div class="stat"><div class="stat-num" style="color:${c}">${stats[k]}</div><div class="stat-lbl">${l}</div></div>
-      `).join('')}
-    </div>
+    + '<div class="batch-bar">'
+    +   '<div class="batch-bar-text"><strong>' + b.open_now.length + '</strong> open · <strong>' + b.verify.length + '</strong> to verify · <strong>' + b.monitoring.length + '</strong> monitoring' + (totalNew ? ' · <strong style="color:#C84B31">' + totalNew + ' new posting' + (totalNew === 1 ? '' : 's') + '</strong>' : '') + '<br><span class="mono" style="font-size:10px">last live refresh: ' + escapeHtml(lastRefresh) + '</span></div>'
+    +   '<div style="display:flex;gap:6px;flex-wrap:wrap">'
+    +     '<button class="batch-btn secondary" id="refresh-live-btn">' + (fetching ? '<span class="spin">⟳</span>' : icons.refresh) + ' Refresh live boards</button>'
+    +     '<button class="batch-btn" id="batch-open-btn" ' + (b.verify.length === 0 ? 'disabled style="opacity:0.4"' : '') + '>' + icons.zap + ' Open top 5 to verify</button>'
+    +   '</div>'
+    + '</div>'
 
-    <section class="section">
-      <div class="section-head accent"><div>
-        <h2 class="section-title accent">Action this week</h2>
-        <div class="section-sub">${urgent.length} firm${urgent.length === 1 ? '' : 's'} need attention now</div>
-      </div></div>
-      ${urgent.length === 0 ? '<div class="empty">Nothing urgent. Use this time on your Basisprüfung.</div>' : urgent.map(c => cardHtml(c, true)).join('')}
-    </section>
+    + statsHtml(b)
 
-    <section class="section">
-      <div class="section-head"><div>
-        <h2 class="section-title">Coming up</h2>
-        <div class="section-sub">${upcoming.length} opening in the next 2–4 months</div>
-      </div></div>
-      ${upcoming.length === 0 ? '<div class="empty">Nothing in the queue.</div>' : upcoming.map(c => cardHtml(c, false)).join('')}
-    </section>
+    + '<section class="section">'
+    +   '<div class="section-head green"><div>'
+    +     '<h2 class="section-title green">Open now — apply</h2>'
+    +     '<div class="section-sub">' + b.open_now.length + ' firm' + (b.open_now.length === 1 ? '' : 's') + ' with confirmed live openings</div>'
+    +   '</div></div>'
+    +   (b.open_now.length === 0 ? '<div class="empty">Nothing confirmed open. Hit "Refresh live boards", or verify a firm and mark it confirmed.</div>' : b.open_now.map(c => cardHtml(c, 'open')).join(''))
+    + '</section>'
 
-    ${monitoring.length > 0 ? `
-      <section class="section">
-        <div class="section-head" style="border-bottom-color:#D97706"><div>
-          <h2 class="section-title" style="color:#92400E">Monitoring</h2>
-          <div class="section-sub">${monitoring.length} firm${monitoring.length === 1 ? '' : 's'} where 2027 cycle hasn't opened yet · recheck weekly</div>
-        </div></div>
-        ${monitoring.map(c => cardHtml(c, false)).join('')}
-      </section>
-    ` : ''}
+    + '<section class="section">'
+    +   '<div class="section-head accent"><div>'
+    +     '<h2 class="section-title accent">Verify this week</h2>'
+    +     '<div class="section-sub">' + b.verify.length + ' firm' + (b.verify.length === 1 ? '' : 's') + ' whose window should be open — confirm or park them</div>'
+    +   '</div></div>'
+    +   (b.verify.length === 0 ? '<div class="empty">Nothing to verify. Use this time on your Basisprüfung.</div>'
+       : verifyShown.map(c => cardHtml(c, 'verify')).join('')
+         + (b.verify.length > 8 ? '<button class="show-more" id="toggle-verify">' + (state.showAllVerify ? 'Show fewer' : 'Show all ' + b.verify.length) + '</button>' : ''))
+    + '</section>'
 
-    ${later.length > 0 ? `
-      <section class="section">
-        <div class="section-head"><div>
-          <h2 class="section-title">Later</h2>
-          <div class="section-sub">${later.length} firms, track but don't worry yet</div>
-        </div></div>
-        ${later.map(c => cardHtml(c, false)).join('')}
-      </section>
-    ` : ''}
-  `;
+    + (b.monitoring.length > 0 ? ''
+      + '<section class="section">'
+      +   '<div class="section-head" style="border-bottom-color:#D97706"><div>'
+      +     '<h2 class="section-title" style="color:#92400E">Monitoring</h2>'
+      +     '<div class="section-sub">' + b.monitoring.length + ' firm' + (b.monitoring.length === 1 ? '' : 's') + ' with no live posting yet · rechecks automatically where wired, weekly otherwise</div>'
+      +   '</div></div>'
+      +   b.monitoring.map(c => cardHtml(c, 'monitor')).join('')
+      + '</section>' : '')
+
+    + '<section class="section">'
+    +   '<div class="section-head"><div>'
+    +     '<h2 class="section-title">Coming up</h2>'
+    +     '<div class="section-sub">' + b.coming_up.length + ' opening in the next 2–4 months</div>'
+    +   '</div></div>'
+    +   (b.coming_up.length === 0 ? '<div class="empty">Nothing in the queue.</div>' : b.coming_up.map(c => cardHtml(c, '')).join(''))
+    + '</section>'
+
+    + (b.later.length > 0 ? ''
+      + '<section class="section">'
+      +   '<div class="section-head"><div>'
+      +     '<h2 class="section-title">Later</h2>'
+      +     '<div class="section-sub">' + b.later.length + ' firms, track but don\'t worry yet</div>'
+      +   '</div></div>'
+      +   b.later.map(c => cardHtml(c, '')).join('')
+      + '</section>' : '');
+}
+
+function statsHtml(b) {
+  const stats = computeStats();
+  const tiles = [
+    [String(b.open_now.length), 'Open now', '#15803D'],
+    [String(b.verify.length), 'To verify', '#C84B31'],
+    [String(stats.applied), 'Applied', '#2563EB'],
+    [String(stats.interview + stats.offer), 'Intv + Offer', '#7C3AED'],
+  ];
+  return '<div class="stats">' + tiles.map(t => '<div class="stat"><div class="stat-num" style="color:' + t[2] + '">' + t[0] + '</div><div class="stat-lbl">' + t[1] + '</div></div>').join('') + '</div>';
 }
 
 function allFirmsHtml() {
   let filtered = COMPANIES.map(enrich);
   if (state.filter !== 'All') filtered = filtered.filter(c => c.category === state.filter);
-  if (state.statusFilter !== 'all') filtered = filtered.filter(c => c.status === state.statusFilter);
+  if (state.tierFilter !== 'all') filtered = filtered.filter(c => c.tier === state.tierFilter);
+  if (state.statusFilter === 'open_live') filtered = filtered.filter(c => c.live === 'open');
+  else if (state.statusFilter !== 'all') filtered = filtered.filter(c => c.status === state.statusFilter);
   if (state.search) {
     const q = state.search.toLowerCase();
-    filtered = filtered.filter(c => (c.name + ' ' + c.role).toLowerCase().includes(q));
+    filtered = filtered.filter(c => (c.name + ' ' + c.role + ' ' + (c.note || '')).toLowerCase().includes(q));
   }
-  filtered.sort((a, b) => a.urgencyMonth.localeCompare(b.urgencyMonth) || (a.priority - b.priority));
+  filtered.sort(byMonthThenPriority);
 
-  return `
-    <div style="margin-bottom:20px">
-      <div class="search-wrap">${icons.search}<input class="search-input" id="search-input" placeholder="Search firms..." value="${escapeHtml(state.search)}" /></div>
-      <div class="chip-row">
-        ${CATEGORIES.map(cat => `<button class="chip ${state.filter === cat ? 'active' : ''}" data-filter="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`).join('')}
-      </div>
-      <div class="chip-row">
-        ${[['all','All status'],['todo','To do'],['not_open','Not open yet'],['applied','Applied'],['interview','Interview'],['offer','Offer'],['rejected','Rejected'],['skipped','Skipped']].map(([k,l]) => `<button class="chip chip-sm ${state.statusFilter === k ? 'active' : ''}" data-statusfilter="${k}">${l}</button>`).join('')}
-      </div>
-    </div>
-    <div class="mono" style="font-size:11px;color:#8B7355;margin-bottom:12px">${filtered.length} result${filtered.length === 1 ? '' : 's'}</div>
-    ${filtered.length === 0 ? '<div class="empty">No firms match these filters.</div>' : filtered.map(c => cardHtml(c, false)).join('')}
-  `;
+  return '<div style="margin-bottom:20px">'
+    + '<div class="search-wrap">' + icons.search + '<input class="search-input" id="search-input" placeholder="Search firms..." value="' + escapeHtml(state.search) + '" /></div>'
+    + '<div class="chip-row">' + CATEGORIES.map(cat => '<button class="chip ' + (state.filter === cat ? 'active' : '') + '" data-filter="' + escapeHtml(cat) + '">' + escapeHtml(cat) + '</button>').join('') + '</div>'
+    + '<div class="chip-row">' + [['all','All tiers'],['safer','Safer — high interview odds'],['match','Match'],['reach','Reach']].map(p => '<button class="chip chip-sm ' + (state.tierFilter === p[0] ? 'active' : '') + '" data-tierfilter="' + p[0] + '">' + p[1] + '</button>').join('') + '</div>'
+    + '<div class="chip-row">' + [['all','All status'],['open_live','● Live open'],['todo','To do'],['not_open','Not open yet'],['applied','Applied'],['interview','Interview'],['offer','Offer'],['rejected','Rejected'],['skipped','Skipped']].map(p => '<button class="chip chip-sm ' + (state.statusFilter === p[0] ? 'active' : '') + '" data-statusfilter="' + p[0] + '">' + p[1] + '</button>').join('') + '</div>'
+    + '</div>'
+    + '<div class="mono" style="font-size:11px;color:#8B7355;margin-bottom:12px">' + filtered.length + ' result' + (filtered.length === 1 ? '' : 's') + '</div>'
+    + (filtered.length === 0 ? '<div class="empty">No firms match these filters.</div>' : filtered.map(c => cardHtml(c, '')).join(''));
 }
 
 function submittedHtml() {
   const submitted = COMPANIES.map(enrich).filter(c => ['applied','interview','offer'].includes(c.status))
     .sort((a, b) => (b.appliedDate || '').localeCompare(a.appliedDate || ''));
   if (submitted.length === 0) {
-    return `<div style="text-align:center;padding:60px 20px;color:#8B7355">
-      ${icons.briefcase.replace('class="icon"', 'class="icon" style="width:32px;height:32px;opacity:0.4;margin-bottom:12px"')}
-      <div class="serif" style="font-size:18px;color:#0F1419">No applications submitted yet</div>
-      <div style="font-size:13px;margin-top:6px">Mark a firm as "Applied" in the dashboard to track it here.</div>
-    </div>`;
+    return '<div style="text-align:center;padding:60px 20px;color:#8B7355">'
+      + icons.briefcase.replace('class="icon"', 'class="icon" style="width:32px;height:32px;opacity:0.4;margin-bottom:12px"')
+      + '<div class="serif" style="font-size:18px;color:#0F1419">No applications submitted yet</div>'
+      + '<div style="font-size:13px;margin-top:6px">Mark a firm as "Applied" in the dashboard to track it here.</div></div>';
   }
-  return `
-    <div class="serif" style="font-size:13px;color:#8B7355;margin-bottom:16px;font-style:italic">Your active applications, most recent first.</div>
-    ${submitted.map(c => `
-      <div class="card" style="padding:14px 16px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-          <div>
-            <div class="serif" style="font-size:16px;font-weight:600">${escapeHtml(c.name)}</div>
-            <div style="font-size:12px;color:#5C5040;margin-top:2px">${escapeHtml(c.role)}</div>
-            ${c.appliedDate ? `<div class="mono" style="font-size:10px;color:#8B7355;margin-top:6px">Applied ${escapeHtml(c.appliedDate)}</div>` : ''}
-          </div>
-          ${badgeHtml(c.status)}
-        </div>
-        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
-          ${['applied','interview','offer','rejected'].map(s => `<button class="status-pill ${c.status === s ? 'active' : ''}" style="${c.status === s ? 'background:'+STATUSES[s].color+';border-color:'+STATUSES[s].color : ''}" data-setstatus="${c.id}|${s}">${STATUSES[s].label}</button>`).join('')}
-        </div>
-      </div>
-    `).join('')}
-  `;
+  return '<div class="serif" style="font-size:13px;color:#8B7355;margin-bottom:16px;font-style:italic">Your active applications, most recent first.</div>'
+    + submitted.map(c => '<div class="card" style="padding:14px 16px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div>'
+      + '<div class="serif" style="font-size:16px;font-weight:600">' + escapeHtml(c.name) + '</div>'
+      + '<div style="font-size:12px;color:#5C5040;margin-top:2px">' + escapeHtml(c.role) + '</div>'
+      + (c.appliedDate ? '<div class="mono" style="font-size:10px;color:#8B7355;margin-top:6px">Applied ' + escapeHtml(c.appliedDate) + '</div>' : '')
+      + '</div>' + badgeHtml(c.status) + '</div>'
+      + '<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">'
+      + ['applied','interview','offer','rejected'].map(s => '<button class="status-pill ' + (c.status === s ? 'active' : '') + '" style="' + (c.status === s ? 'background:' + STATUSES[s].color + ';border-color:' + STATUSES[s].color : '') + '" data-setstatus="' + c.id + '|' + s + '">' + STATUSES[s].label + '</button>').join('')
+      + '</div></div>').join('');
 }
 
 function alertsHtml() {
-  return `
-    <div class="intro">
-      <h2>Real-time alerts</h2>
-      <p>This tracker runs in your browser, so it can't ping you while you're studying. Set up these external services once and they'll email you the moment relevant roles open. Tick each as you set it up.</p>
-    </div>
-    ${EXTERNAL_ALERTS.map(a => `
-      <div class="alert-card" data-toggle-alert="${a.id}">
-        <div class="checkbox ${state.data.alerts[a.id] ? 'checked' : ''}">${state.data.alerts[a.id] ? '<svg viewBox="0 0 24 24" width="12" height="12" stroke="#FFF" stroke-width="3" fill="none"><polyline points="20 6 9 17 4 12"/></svg>' : ''}</div>
-        <div class="alert-label ${state.data.alerts[a.id] ? 'done' : ''}">${escapeHtml(a.label)}</div>
-        <a href="${escapeHtml(a.url)}" target="_blank" rel="noreferrer" style="color:#C84B31" onclick="event.stopPropagation()">${icons.external}</a>
-      </div>
-    `).join('')}
-    <div style="margin-top:40px;padding-top:24px;border-top:1px solid #E5DDC8">
-      <h3 class="serif" style="font-size:16px;font-weight:600;margin:0 0 10px">Workflow during Basisprüfung Lernphase</h3>
-      <ol style="font-size:13px;color:#5C5040;line-height:1.7;padding-left:20px;margin:0">
-        <li>Set up all 8 external alerts above (one-time, ~20 min).</li>
-        <li>Mark firms where the 2027 cycle hasn't appeared yet (Goldman Sachs Summer Analyst, etc.) as <strong>"Not Open Yet"</strong> — they move to the Monitoring section.</li>
-        <li>Open this tracker once a week — Sunday evening, 5 minutes.</li>
-        <li>Click "Refresh live data" to pull current postings from Greenhouse-hosted firms.</li>
-        <li>Check the Monitoring section — for each firm, click "Check & Open" to verify if 2027 has opened. If yes, click "Cycle opened" to move it to Action.</li>
-        <li>Click "Open top 5 urgent" to batch-check the most time-sensitive firms.</li>
-        <li>Mark status. Close. Back to studying.</li>
-        <li>After Basisprüfung (late Aug), switch to twice-weekly checks.</li>
-      </ol>
-    </div>
-    <div class="tools">
-      <button class="tool-btn" id="export-btn">${icons.download} Export data (.json)</button>
-      <button class="tool-btn" id="import-btn">${icons.upload} Import data</button>
-      <button class="tool-btn danger" id="reset-btn">${icons.trash} Reset all</button>
-    </div>
-    <div style="font-size:11px;color:#8B7355;margin-top:12px;line-height:1.5">Tip: Export from Mac → transfer file to phone → import to sync progress.</div>
-  `;
+  const firms = liveFirms();
+  return '<div class="intro">'
+    + '<h2>Live boards & alerts</h2>'
+    + '<p>' + firms.length + ' firms are wired straight into their public Greenhouse/Lever job-board APIs — these update themselves every time you refresh. Everything else can\'t ping you from a static page, so set up these external alerts once and let them email you. Tick each as you set it up.</p>'
+    + '</div>'
+
+    + '<h3 class="serif" style="font-size:16px;font-weight:600;margin:0 0 10px">Live board health</h3>'
+    + '<div class="card" style="padding:6px 14px;margin-bottom:24px">'
+    + firms.map(c => {
+        const e = state.data.live[c.id];
+        let status, color;
+        if (!e) { status = 'not fetched yet'; color = '#8B7355'; }
+        else if (!e.ok) { status = 'unreachable — verify manually'; color = '#C84B31'; }
+        else { status = e.matches.length + ' matching / ' + e.total + ' total roles'; color = e.matches.length ? '#15803D' : '#8B7355'; }
+        return '<div class="health-row"><span>' + escapeHtml(c.name) + (c.verified ? '' : ' <span class="mono" style="font-size:9px;color:#8B7355">(best-effort slug)</span>') + '</span><span class="mono" style="font-size:10px;color:' + color + '">' + escapeHtml(status) + '</span></div>';
+      }).join('')
+    + '</div>'
+
+    + '<h3 class="serif" style="font-size:16px;font-weight:600;margin:0 0 10px">External alerts</h3>'
+    + EXTERNAL_ALERTS.map(a => '<div class="alert-card" data-toggle-alert="' + a.id + '">'
+      + '<div class="checkbox ' + (state.data.alerts[a.id] ? 'checked' : '') + '">' + (state.data.alerts[a.id] ? '<svg viewBox="0 0 24 24" width="12" height="12" stroke="#FFF" stroke-width="3" fill="none"><polyline points="20 6 9 17 4 12"/></svg>' : '') + '</div>'
+      + '<div class="alert-label ' + (state.data.alerts[a.id] ? 'done' : '') + '">' + escapeHtml(a.label) + '</div>'
+      + '<a href="' + escapeHtml(a.url) + '" target="_blank" rel="noreferrer" style="color:#C84B31" onclick="event.stopPropagation()">' + icons.external + '</a>'
+      + '</div>').join('')
+
+    + '<div style="margin-top:40px;padding-top:24px;border-top:1px solid #E5DDC8">'
+    + '<h3 class="serif" style="font-size:16px;font-weight:600;margin:0 0 10px">Weekly 5-minute workflow (Lernphase-proof)</h3>'
+    + '<ol style="font-size:13px;color:#5C5040;line-height:1.7;padding-left:20px;margin:0">'
+    + '<li>Set up the external alerts above (one-time, ~20 min).</li>'
+    + '<li>Open the tracker once a week — it auto-refreshes the live boards on load.</li>'
+    + '<li>Anything in <strong>Open now</strong>: open the linked posting directly and apply or mark Applied.</li>'
+    + '<li>Anything in <strong>Verify this week</strong>: "Open top 5 to verify". On each careers page either press <strong>Confirmed open</strong> or <strong>Not posted → Monitor</strong>. Both silence the card until reality changes.</li>'
+    + '<li>Close. Back to studying. After the Basisprüfung (late Aug), switch to twice-weekly.</li>'
+    + '</ol></div>'
+
+    + '<div class="tools">'
+    + '<button class="tool-btn" id="export-btn">' + icons.download + ' Export data (.json)</button>'
+    + '<button class="tool-btn" id="import-btn">' + icons.upload + ' Import data</button>'
+    + '<button class="tool-btn danger" id="reset-btn">' + icons.trash + ' Reset all</button>'
+    + '</div>'
+    + '<div style="font-size:11px;color:#8B7355;margin-top:12px;line-height:1.5">Tip: Export from Mac → transfer file to phone → import to sync progress.</div>';
 }
 
-function cardHtml(c, urgent) {
+function cardHtml(c, variant) {
   const isOpen = state.openCard === c.id;
   const catColor = CAT_COLORS[c.category] || '#5C5040';
   const verify = verifyLabel(c);
   const isStale = verify.cls === 'stale';
-  const hasLive = !!c.greenhouseSlug;
-  return `
-    <div class="card card-enter ${urgent ? 'urgent' : ''} ${isStale ? 'stale' : ''}">
-      <div class="card-head" data-toggle-card="${c.id}">
-        <div class="card-row"><div class="card-main">
-          <div class="card-top">
-            <span class="card-name">${escapeHtml(c.name)}</span>
-            ${c.priority === 1 ? icons.star : ''}
-            <span class="cat-tag" style="color:${catColor};background:${catColor}12">${escapeHtml(c.category)}</span>
-            ${hasLive ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>' : ''}
-          </div>
-          <div class="card-role">${escapeHtml(c.role)}</div>
-          <div class="card-window ${urgent ? 'urgent' : ''}">${escapeHtml(c.openWindow)}</div>
-          <div class="card-verify ${verify.cls}">${escapeHtml(verify.text)}</div>
-        </div>
-        <div style="transform:${isOpen ? 'rotate(180deg)' : 'none'};transition:transform 0.2s">${icons.chevronDown}</div></div>
-      </div>
-      ${isOpen ? cardBodyHtml(c) : ''}
-    </div>
-  `;
+  const hasLive = !!c.atsSlug;
+  const e = c.liveEntry;
+  let liveBadge = '';
+  if (hasLive) {
+    if (c.live === 'open') liveBadge = '<span class="live-badge"><span class="live-dot"></span>' + e.matches.length + ' LIVE' + (e.newCount ? ' · ' + e.newCount + ' NEW' : '') + '</span>';
+    else if (c.live === 'quiet') liveBadge = '<span class="live-badge quiet">LIVE · 0</span>';
+    else if (c.live === 'error') liveBadge = '<span class="live-badge off">LIVE OFF</span>';
+    else liveBadge = '<span class="live-badge off">LIVE ?</span>';
+  }
+  const cardCls = variant === 'open' ? 'open-now' : (variant === 'verify' ? 'urgent' + (isStale ? ' stale' : '') : (isStale ? 'stale' : ''));
+  return '<div class="card card-enter ' + cardCls + '">'
+    + '<div class="card-head" data-toggle-card="' + c.id + '">'
+    + '<div class="card-row"><div class="card-main">'
+    + '<div class="card-top">'
+    + '<span class="card-name">' + escapeHtml(c.name) + '</span>'
+    + (c.priority === 1 ? icons.star : '')
+    + '<span class="cat-tag" style="color:' + catColor + ';background:' + catColor + '12">' + escapeHtml(c.category) + '</span>'
+    + liveBadge
+    + '</div>'
+    + '<div class="card-role">' + escapeHtml(c.role) + '</div>'
+    + '<div class="card-window ' + (variant === 'open' ? 'open' : (variant === 'verify' ? 'urgent' : '')) + '">' + escapeHtml(c.live === 'open' ? 'Live postings up — see below' : c.openWindow) + '</div>'
+    + '<div class="card-verify ' + verify.cls + '">' + escapeHtml(verify.text) + '</div>'
+    + '</div>'
+    + '<div style="transform:' + (isOpen ? 'rotate(180deg)' : 'none') + ';transition:transform 0.2s">' + icons.chevronDown + '</div></div>'
+    + '</div>'
+    + (isOpen ? cardBodyHtml(c, variant) : '')
+    + '</div>';
 }
 
-function cardBodyHtml(c) {
+function cardBodyHtml(c, variant) {
   const isEditing = state.editingNote === c.id;
-  const hasLive = !!c.greenhouseSlug;
+  const hasLive = !!c.atsSlug;
   const isMonitoring = c.status === 'not_open';
-  return `
-    <div class="card-body">
-      ${c.note ? `<div class="card-quote">"${escapeHtml(c.note)}"</div>` : ''}
-      ${isMonitoring ? `<div style="background:#FEF3C7;border:1px solid #FCD34D;padding:8px 10px;border-radius:2px;margin-top:8px;font-size:12px;color:#78350F;line-height:1.4">⏳ <strong>Monitoring</strong> — 2027 cycle not yet posted. Click "Verify & Open" to check, then "Cycle opened" if the role is now live.</div>` : ''}
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn btn-primary" data-verify-open="${c.id}|${escapeHtml(c.url)}">${isMonitoring ? 'Check & Open' : 'Verify & Open'} ${icons.external}</button>
-        ${isMonitoring ? `<button class="btn" style="background:#15803D;color:#FFF" data-cycle-opened="${c.id}">✓ Cycle opened — move to To Do</button>` : `<button class="btn btn-secondary ${c.status === 'applied' ? 'active' : ''}" data-mark-applied="${c.id}">${c.status === 'applied' ? '✓ Applied' : 'Mark applied'}</button>`}
-        ${hasLive ? `<button class="btn btn-live" data-refresh-live="${c.id}">${state.liveFetching[c.id] ? '<span class="spin">⟳</span>' : icons.refresh} Refresh live</button>` : ''}
-        ${!isMonitoring ? `<button class="btn btn-skip" data-setstatus="${c.id}|skipped">Skip</button>` : `<button class="btn btn-skip" data-setstatus="${c.id}|skipped">Skip</button>`}
-      </div>
-      ${hasLive ? liveSectionHtml(c) : ''}
-      <div style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap">
-        ${Object.entries(STATUSES).map(([k, s]) => `<button class="status-pill ${c.status === k ? 'active' : ''}" style="${c.status === k ? 'background:'+s.color+';color:#FFF;border-color:'+s.color : ''}" data-setstatus="${c.id}|${k}">${s.label}</button>`).join('')}
-      </div>
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid #F0E8D4">
-        ${isEditing ? `
-          <textarea class="note-input" id="note-draft" placeholder="Your notes...">${escapeHtml(state.noteDraft)}</textarea>
-          <div style="display:flex;gap:6px;margin-top:6px">
-            <button class="btn" style="background:#15803D;color:#FFF" data-save-note="${c.id}">Save</button>
-            <button class="btn" style="color:#8B7355" data-cancel-note="1">Cancel</button>
-          </div>
-        ` : `<button class="note-btn" data-edit-note="${c.id}">${icons.edit}${c.userNote ? escapeHtml(c.userNote.slice(0, 60) + (c.userNote.length > 60 ? '...' : '')) : 'Add personal note'}</button>`}
-      </div>
-    </div>
-  `;
+  return '<div class="card-body">'
+    + (c.note ? '<div class="card-quote">"' + escapeHtml(c.note) + '"</div>' : '')
+    + (isMonitoring && c.live !== 'open' ? '<div style="background:#FEF3C7;border:1px solid #FCD34D;padding:8px 10px;border-radius:2px;margin-top:8px;font-size:12px;color:#78350F;line-height:1.4">⏳ <strong>Monitoring</strong> — cycle not yet posted. ' + (hasLive ? 'The live board will promote this automatically when a matching role appears.' : 'Click "Check & Open" weekly; press "Cycle opened" once it\'s live.') + '</div>' : '')
+    + '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">'
+    + '<button class="btn btn-primary" data-verify-open="' + c.id + '">' + (isMonitoring ? 'Check & Open' : 'Verify & Open') + ' ' + icons.external + '</button>'
+    + (c.live !== 'open' && !c.confirmedOpen && !isMonitoring ? '<button class="btn btn-green" data-confirm-open="' + c.id + '">✓ Confirmed open</button>' : '')
+    + (isMonitoring ? '<button class="btn btn-green" data-cycle-opened="' + c.id + '">✓ Cycle opened</button>' : '')
+    + (!isMonitoring && c.live !== 'open' ? '<button class="btn btn-amber" data-set-monitor="' + c.id + '">Not posted → Monitor</button>' : '')
+    + '<button class="btn btn-secondary ' + (c.status === 'applied' ? 'active' : '') + '" data-mark-applied="' + c.id + '">' + (c.status === 'applied' ? '✓ Applied' : 'Mark applied') + '</button>'
+    + (hasLive ? '<button class="btn btn-live" data-refresh-live="' + c.id + '">' + (state.liveFetching[c.id] ? '<span class="spin">⟳</span>' : icons.refresh) + ' Refresh live</button>' : '')
+    + '<button class="btn btn-skip" data-setstatus="' + c.id + '|skipped">Skip</button>'
+    + '</div>'
+    + (hasLive ? liveSectionHtml(c) : '')
+    + '<div style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap">'
+    + Object.entries(STATUSES).map(p => '<button class="status-pill ' + (c.status === p[0] ? 'active' : '') + '" style="' + (c.status === p[0] ? 'background:' + p[1].color + ';color:#FFF;border-color:' + p[1].color : '') + '" data-setstatus="' + c.id + '|' + p[0] + '">' + p[1].label + '</button>').join('')
+    + '</div>'
+    + '<div style="margin-top:14px;padding-top:12px;border-top:1px solid #F0E8D4">'
+    + (isEditing
+      ? '<textarea class="note-input" id="note-draft" placeholder="Your notes...">' + escapeHtml(state.noteDraft) + '</textarea>'
+        + '<div style="display:flex;gap:6px;margin-top:6px">'
+        + '<button class="btn btn-green" data-save-note="' + c.id + '">Save</button>'
+        + '<button class="btn" style="color:#8B7355" data-cancel-note="1">Cancel</button></div>'
+      : '<button class="note-btn" data-edit-note="' + c.id + '">' + icons.edit + (c.userNote ? escapeHtml(c.userNote.slice(0, 60) + (c.userNote.length > 60 ? '...' : '')) : 'Add personal note') + '</button>')
+    + '</div>'
+    + '</div>';
 }
 
 function liveSectionHtml(c) {
-  const slug = c.greenhouseSlug + (c.greenhouseEu ? ':eu' : '');
-  const cached = state.data.live[slug];
+  const e = c.liveEntry;
   const isFetching = state.liveFetching[c.id];
-
-  if (isFetching && !cached) {
-    return `<div class="live-section loading"><div class="live-title loading">Loading live data...</div></div>`;
-  }
-  if (!cached) {
-    return `<div class="live-section loading"><div class="live-title loading">Click "Refresh live" to fetch current postings from Greenhouse</div></div>`;
-  }
-  const data = cached.data;
-  if (!data || !data.jobs) {
-    return `<div class="live-section error"><div class="live-title error">Live fetch unavailable</div><div style="font-size:11px;color:#5C5040">API blocked or slug changed. Use Verify & Open instead.</div></div>`;
-  }
-  const interns = filterInternshipJobs(data.jobs);
-  const fetchedDate = new Date(cached.time).toLocaleString();
-  return `
-    <div class="live-section">
-      <div class="live-title">● LIVE — ${interns.length} intern role${interns.length === 1 ? '' : 's'} found (of ${data.total} total) · fetched ${fetchedDate}</div>
-      ${interns.length === 0 ? '<div style="font-size:12px;color:#5C5040;font-style:italic">No intern/2027 postings live right now. Check again later.</div>' : interns.slice(0, 6).map(j => `
-        <div class="live-job">
-          <div class="live-job-title"><a href="${escapeHtml(j.url)}" target="_blank" rel="noreferrer">${escapeHtml(j.title)} ${icons.external}</a></div>
-          <div class="live-job-meta">${escapeHtml(j.location || 'Location TBA')}${j.updated ? ' · updated ' + new Date(j.updated).toLocaleDateString() : ''}</div>
-        </div>
-      `).join('')}
-      ${interns.length > 6 ? `<div style="font-size:11px;color:#8B7355;margin-top:6px">+ ${interns.length - 6} more</div>` : ''}
-    </div>
-  `;
+  if (isFetching && !e) return '<div class="live-section loading"><div class="live-title loading">Loading live data...</div></div>';
+  if (!e) return '<div class="live-section loading"><div class="live-title loading">Click "Refresh live" to fetch current postings</div></div>';
+  if (!e.ok) return '<div class="live-section error"><div class="live-title error">Live board unreachable</div><div style="font-size:11px;color:#5C5040">Slug may have moved or the API is blocked (' + escapeHtml(e.error || '') + '). Use Verify &amp; Open instead.</div></div>';
+  const fetchedDate = new Date(e.time).toLocaleString();
+  return '<div class="live-section">'
+    + '<div class="live-title">● LIVE — ' + e.matches.length + ' matching role' + (e.matches.length === 1 ? '' : 's') + ' (of ' + e.total + ' total) · fetched ' + escapeHtml(fetchedDate) + '</div>'
+    + (e.matches.length === 0
+      ? '<div style="font-size:12px;color:#5C5040;font-style:italic">No intern/insight/2027 postings live right now. This firm sits in Monitoring until something appears.</div>'
+      : e.matches.slice(0, 6).map(j => '<div class="live-job">'
+        + '<div class="live-job-title"><a href="' + escapeHtml(j.url) + '" target="_blank" rel="noreferrer">' + escapeHtml(j.title) + ' ' + icons.external + '</a>'
+        + (EU_RE.test(j.location || '') ? '<span class="region-tag">EU</span>' : '')
+        + (j.isNew ? '<span class="new-tag">NEW</span>' : '')
+        + '</div>'
+        + '<div class="live-job-meta">' + escapeHtml(j.location || 'Location TBA') + (j.updated ? ' · updated ' + escapeHtml(new Date(j.updated).toLocaleDateString()) : '') + '</div>'
+        + '</div>').join('')
+        + (e.matches.length > 6 ? '<div style="font-size:11px;color:#8B7355;margin-top:6px">+ ' + (e.matches.length - 6) + ' more</div>' : ''))
+    + '</div>';
 }
 
 function badgeHtml(status) {
   const s = STATUSES[status] || STATUSES.todo;
-  return `<span class="badge" style="background:${s.bg};color:${s.color}">${s.label}</span>`;
+  return '<span class="badge" style="background:' + s.bg + ';color:' + s.color + '">' + s.label + '</span>';
 }
 
 /* ============================================================
@@ -984,8 +1165,22 @@ function attachListeners() {
   document.querySelectorAll('[data-verify-open]').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
-      const [id, url] = el.dataset.verifyOpen.split('|');
-      verifyAndOpen(id, url);
+      const id = el.dataset.verifyOpen;
+      const c = COMPANIES.find(x => x.id === id);
+      if (c) verifyAndOpen(id, c.url);
+    };
+  });
+  document.querySelectorAll('[data-confirm-open]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const now = new Date().toISOString();
+      updateApp(el.dataset.confirmOpen, { confirmedOpenAt: now, lastChecked: now, status: 'todo' });
+    };
+  });
+  document.querySelectorAll('[data-set-monitor]').forEach(el => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      updateApp(el.dataset.setMonitor, { status: 'not_open', confirmedOpenAt: null, lastChecked: new Date().toISOString() });
     };
   });
   document.querySelectorAll('[data-mark-applied]').forEach(el => {
@@ -998,9 +1193,10 @@ function attachListeners() {
   document.querySelectorAll('[data-setstatus]').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
-      const [id, s] = el.dataset.setstatus.split('|');
+      const parts = el.dataset.setstatus.split('|');
+      const id = parts[0], s = parts[1];
       const patch = { status: s };
-      if (s === 'applied' && !state.data.apps[id]?.appliedDate) patch.appliedDate = new Date().toISOString().split('T')[0];
+      if (s === 'applied' && !(state.data.apps[id] && state.data.apps[id].appliedDate)) patch.appliedDate = new Date().toISOString().split('T')[0];
       updateApp(id, patch);
     };
   });
@@ -1010,6 +1206,9 @@ function attachListeners() {
   document.querySelectorAll('[data-statusfilter]').forEach(el => {
     el.onclick = () => setState({ statusFilter: el.dataset.statusfilter, openCard: null });
   });
+  document.querySelectorAll('[data-tierfilter]').forEach(el => {
+    el.onclick = () => setState({ tierFilter: el.dataset.tierfilter, openCard: null });
+  });
   document.querySelectorAll('[data-toggle-alert]').forEach(el => {
     el.onclick = (e) => { if (e.target.closest('a')) return; toggleAlert(el.dataset.toggleAlert); };
   });
@@ -1017,14 +1216,14 @@ function attachListeners() {
     el.onclick = (e) => {
       e.stopPropagation();
       const id = el.dataset.editNote;
-      setState({ editingNote: id, noteDraft: state.data.apps[id]?.note || '' });
+      setState({ editingNote: id, noteDraft: (state.data.apps[id] && state.data.apps[id].note) || '' });
     };
   });
   document.querySelectorAll('[data-save-note]').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
-      const draft = document.getElementById('note-draft')?.value || '';
-      updateApp(el.dataset.saveNote, { note: draft });
+      const draftEl = document.getElementById('note-draft');
+      updateApp(el.dataset.saveNote, { note: draftEl ? draftEl.value : '' });
       setState({ editingNote: null });
     };
   });
@@ -1037,12 +1236,13 @@ function attachListeners() {
   document.querySelectorAll('[data-cycle-opened]').forEach(el => {
     el.onclick = (e) => {
       e.stopPropagation();
-      const id = el.dataset.cycleOpened;
-      const now = new Date();
-      const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
-      updateApp(id, { status: 'todo', cycleOpenedAt: new Date().toISOString(), lastChecked: new Date().toISOString() });
+      const now = new Date().toISOString();
+      updateApp(el.dataset.cycleOpened, { status: 'todo', confirmedOpenAt: now, lastChecked: now });
     };
   });
+  const toggleVerify = document.getElementById('toggle-verify');
+  if (toggleVerify) toggleVerify.onclick = () => setState({ showAllVerify: !state.showAllVerify });
+
   const searchInput = document.getElementById('search-input');
   if (searchInput) {
     searchInput.oninput = (e) => {
@@ -1059,11 +1259,16 @@ function attachListeners() {
   const noteDraft = document.getElementById('note-draft');
   if (noteDraft) noteDraft.oninput = (e) => { state.noteDraft = e.target.value; };
 
-  document.getElementById('batch-open-btn')?.addEventListener('click', batchOpenUrgent);
-  document.getElementById('refresh-live-btn')?.addEventListener('click', refreshLiveData);
-  document.getElementById('export-btn')?.addEventListener('click', exportData);
-  document.getElementById('import-btn')?.addEventListener('click', importData);
-  document.getElementById('reset-btn')?.addEventListener('click', resetAll);
+  const batchBtn = document.getElementById('batch-open-btn');
+  if (batchBtn) batchBtn.onclick = batchOpenVerify;
+  const refreshBtn = document.getElementById('refresh-live-btn');
+  if (refreshBtn) refreshBtn.onclick = refreshLiveData;
+  const exportBtn = document.getElementById('export-btn');
+  if (exportBtn) exportBtn.onclick = exportData;
+  const importBtn = document.getElementById('import-btn');
+  if (importBtn) importBtn.onclick = importData;
+  const resetBtn = document.getElementById('reset-btn');
+  if (resetBtn) resetBtn.onclick = resetAll;
 }
 
 /* ============================================================
@@ -1072,17 +1277,13 @@ function attachListeners() {
 
 render();
 
-// Auto-refresh live data on first load (stale cache only)
-(async () => {
-  const liveCompanies = COMPANIES.filter(c => c.greenhouseSlug);
-  const needsRefresh = liveCompanies.some(c => {
-    const key = c.greenhouseSlug + (c.greenhouseEu ? ':eu' : '');
-    const cached = state.data.live[key];
-    return !cached || (Date.now() - cached.time > LIVE_CACHE_TTL);
+// Auto-refresh live boards on load when the cache is stale
+(() => {
+  const needsRefresh = liveFirms().some(c => {
+    const e = state.data.live[c.id];
+    return !e || (Date.now() - e.time > LIVE_CACHE_TTL);
   });
-  if (needsRefresh) {
-    await refreshLiveData();
-  }
+  if (needsRefresh) refreshLiveData();
 })();
 </script>
 </body>

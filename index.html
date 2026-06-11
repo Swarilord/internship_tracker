@@ -230,8 +230,8 @@ const COMPANIES = [
   { id: 'lek', name: 'L.E.K. Consulting', role: 'Summer Intern', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.lek.com/careers', note: '' },
   { id: 'eyp', name: 'EY-Parthenon', role: 'Summer Intern DACH', category: 'Consulting', openWindow: 'Aug–Oct 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.ey.com/en_gl/careers/students', note: '' },
   { id: 'mond', name: 'Monitor Deloitte', role: 'Summer Intern', category: 'Consulting', openWindow: 'Aug–Oct 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www2.deloitte.com/global/en/careers/students.html', note: '' },
-  { id: 'sk', name: 'Simon-Kucher', role: 'Summer Intern DACH', category: 'Consulting', openWindow: 'Aug–Sep 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://www.simon-kucher.com/en/careers', note: 'Bonn HQ. German strong.' },
-  { id: 'zeb', name: 'zeb consulting', role: 'Summer Intern', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://zeb-consulting.com/en/career', note: 'Münster. Bank consulting niche.' },
+  { id: 'sk', name: 'Simon-Kucher', tier: 'match', role: 'Summer Intern DACH', category: 'Consulting', openWindow: 'Aug–Sep 2026', urgencyMonth: '2026-08', priority: 2, url: 'https://www.simon-kucher.com/en/careers', note: 'Bonn HQ. German strong.' },
+  { id: 'zeb', name: 'zeb consulting', tier: 'match', role: 'Summer Intern', category: 'Consulting', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://zeb-consulting.com/en/career', note: 'Münster. Bank consulting niche.' },
   // MBB insight
   { id: 'mck-insight', name: 'McKinsey Insight', role: 'Insight CH/DE 2027', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://www.mckinsey.com/careers/students', note: 'Built for early-year students.' },
   { id: 'bcg-step', name: 'BCG Step In', role: 'Step In Munich 2027', category: 'Insight', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 1, url: 'https://careers.bcg.com/', note: 'Early-year program.' },
@@ -429,9 +429,52 @@ const COMPANIES = [
   // Insurance / actuarial (math = exactly what they want; far less competitive per applicant)
   { id: 'allianz-se', name: 'Allianz', role: 'Internship — Actuarial / Risk (Group)', category: 'Insurance', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 2, url: 'https://careers.allianz.com/', note: 'Munich. Group actuarial + risk Praktika; Dell + Commerzbank corporate experience reads well here.' },
   { id: 'axa-ch', name: 'AXA Switzerland', role: 'Internship — Actuarial / Data', category: 'Insurance', tier: 'safer', openWindow: 'Continuous', urgencyMonth: '2026-09', priority: 3, url: 'https://www.axa.ch/en/about-axa/jobs-career.html', note: 'Winterthur — 25 min from ETH. Actuarial/data internships; very student-friendly.' },
+
+  // ===== Hidden quant firms (user-supplied list, May 2026) — deduped, defunct firms removed =====
+  // EU-reachable systematic & quant (the genuinely useful part of the list for an ETH profile)
+  { id: 'worldquant', name: 'WorldQuant', role: 'Research Consultant (BRAIN) / Intern', category: 'Quant', tier: 'match', openWindow: 'Continuous', urgencyMonth: '2026-07', priority: 1, url: 'https://www.worldquant.com/careers/', note: 'The BRAIN research-consultant program is REMOTE and open globally — build alphas part-time from Zurich during Lernphase. One of the few quant doors genuinely open to a 1st-year. Do this.', ats: 'greenhouse', atsSlug: 'worldquant' },
+  { id: 'winton', name: 'Winton Group', role: 'Quant Research Intern', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.winton.com/careers', note: 'London. Data-science-heavy systematic fund; less applicant volume than Jane Street-tier names.' },
+  { id: 'aspect', name: 'Aspect Capital', role: 'Quant Research Intern', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.aspectcapital.com/careers', note: 'London CTA (Man AHL alumni). Systematic macro; overlooked.' },
+  { id: 'gsa', name: 'GSA Capital', role: 'Quant Researcher Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.gsacapital.com/', note: 'London. Small team, very high bar despite low profile.' },
+  { id: 'systematica', name: 'Systematica Investments', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.systematica.com/', note: 'Geneva (Leda Braga, BlueTrend). Tiny headcount — high bar, but Swiss location is a plus for you.' },
+  { id: 'schonfeld', name: 'Schonfeld', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.schonfeld.com/careers/', note: 'NY + London pods; growing quant hiring.' },
+  { id: 'bam', name: 'Balyasny (BAM)', role: 'Quant Intern / Anneal Program', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.bamfunds.com/careers', note: 'London office; quant hiring accelerating. Less brand-saturated than Citadel.' },
+  { id: 'nbim', name: 'Norges Bank IM', role: 'Summer Intern — Systematic Strategies', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 2, url: 'https://www.nbim.no/en/organisation/careers/', note: 'Oslo. $1.7T sovereign fund with a real internship program — institutional-scale quant, far less applicant pressure than hedge funds, huge CV brand.' },
+  { id: 'algebris', name: 'Algebris Investments', role: 'Quant / Credit Intern', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.algebris.com/careers/', note: 'London. Credit + macro quant; low applicant volume.' },
+  { id: 'acadian', name: 'Acadian Asset Mgmt', role: 'Quant Equity Intern', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.acadian-asset.com/careers', note: 'Boston + London office. Old, respected quant equity shop most students never apply to.' },
+  { id: 'arrowstreet', name: 'Arrowstreet Capital', role: 'Quant Research Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.arrowstreetcapital.com/careers/', note: 'Boston only. Strong returns, low profile; US visa hurdle applies.' },
+  { id: 'pdt', name: 'PDT Partners', role: 'Quant Research Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://pdtpartners.com/careers.html', note: 'NY/London. Despite the "hidden" label: extremely selective, academic-credential heavy.' },
+  // EU-reachable prop / MM
+  { id: 'genevatr', name: 'Geneva Trading', role: 'Trading Intern', category: 'Quant', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.genevatrading.com/careers/', note: 'Chicago + DUBLIN — the Dublin office makes this one of the few US prop shops truly reachable from the EU. Mentorship culture.' },
+  { id: 'radix', name: 'Radix Trading', role: 'Quant Intern', category: 'Quant', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://radixtrading.co/', note: 'Chicago + Amsterdam (ex-DRW/Jump founders). Low brand awareness = thinner applicant pool; strong technical bar though.' },
+  { id: 'virtu', name: 'Virtu Financial', role: 'Internship — Trading / Engineering', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.virtu.com/careers/', note: 'NY HQ but Dublin + London offices. Public company; structured internships.' },
+  { id: 'gts', name: 'GTS', role: 'Trading / Engineering Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://gtsx.com/careers/', note: 'NY electronic MM. Coding-heavy interviews; US-based.' },
+  // US-only prop shops — apply selectively; small shops rarely sponsor visas for interns
+  { id: 'ctc', name: 'Chicago Trading Co.', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.chicagotrading.com/careers/', note: 'Chicago options. Interview difficulty ~Optiver. US visa hurdle from ETH.' },
+  { id: 'groupone', name: 'Group One Trading', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.group1.com/careers/', note: 'Chicago options floor legacy. US-only.' },
+  { id: 'hap', name: 'HAP Capital', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.hapcapital.com/', note: 'Boutique options shop. US-only.' },
+  { id: 'dvtrading', name: 'DV Trading', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://dvtrading.co/careers/', note: 'Chicago futures/options. US-only.' },
+  { id: 'peak6', name: 'PEAK6', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://peak6.com/careers/', note: 'Chicago options + fintech. US-only.' },
+  { id: 'transmarket', name: 'TransMarket Group', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.transmarketgroup.com/', note: 'Chicago futures; mentorship-focused. US-only.' },
+  { id: 'vatic', name: 'Vatic Investments', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.vaticlabs.com/', note: 'San Francisco; very low profile. US-only.' },
+  { id: 'kershner', name: 'Kershner Trading', role: 'Trading Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.kershnertrading.com/', note: 'Austin TX. US-only.' },
+  { id: 'quantlab', name: 'Quantlab Financial', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.quantlab.com/careers/', note: 'Houston HFT; long-tenured, low profile. US-only.' },
+  { id: 'threered', name: '3Red Partners', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://3redpartners.com/', note: 'Chicago HFT. Small + selective. US-only.' },
+  { id: 'consolidated', name: 'Consolidated Trading', role: 'Trading Intern', category: 'Quant', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.consolidatedtrading.com/careers/', note: 'Chicago. Known as a first-step shop — lower bar than the big names, but US visa hurdle still applies.' },
+  { id: 'voloridge', name: 'Voloridge', role: 'Quant Research Intern', category: 'Quant', tier: 'reach', openWindow: 'Fall 2026', urgencyMonth: '2026-10', priority: 3, url: 'https://www.voloridge.com/careers', note: 'Florida systematic fund. US-only.' },
+  { id: 'tibra', name: 'Tibra Capital', role: 'Quant Intern', category: 'Quant', tier: 'reach', openWindow: 'Verify first', urgencyMonth: '2026-10', priority: 3, url: 'https://www.tibra.com/', note: 'Australia. Has scaled down substantially over the years — verify they still run internships before spending time here.' },
+  // Crypto market making (real quant work, thinner applicant pools, London/EU-friendly)
+  { id: 'wintermute', name: 'Wintermute', role: 'Trading / Quant Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-08', priority: 2, url: 'https://www.wintermute.com/careers', note: 'London. Most sophisticated crypto MM; runs internships + grad roles. Prosperity rank lands well here.', ats: 'greenhouse', atsSlug: 'wintermute' },
+  { id: 'gsr', name: 'GSR Markets', role: 'Trading / Quant Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-09', priority: 3, url: 'https://www.gsr.io/careers/', note: 'London. Established institutional crypto MM.' },
+  { id: 'b2c2', name: 'B2C2', role: 'Quant Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-09', priority: 3, url: 'https://www.b2c2.com/careers', note: 'London (SBI Group). Systematic crypto liquidity.' },
+  { id: 'keyrock', name: 'Keyrock', role: 'Quant / Trading Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-09', priority: 3, url: 'https://keyrock.com/careers/', note: 'Brussels. Growing EU crypto MM; far thinner applicant pool than London names.' },
+  { id: 'galaxy', name: 'Galaxy Digital', role: 'Quant / Trading Intern', category: 'Crypto', tier: 'match', openWindow: 'Fall 2026', urgencyMonth: '2026-09', priority: 3, url: 'https://www.galaxy.com/careers/', note: 'NY + London. Trading, AM, structured products in digital assets.' },
+  { id: 'amber', name: 'Amber Group', role: 'Quant Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-10', priority: 3, url: 'https://www.ambergroup.io/careers', note: 'Hong Kong/APAC. Only if open to Asia.' },
+  { id: 'auros', name: 'Auros', role: 'Quant / Trading Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-10', priority: 3, url: 'https://www.auros.global/careers', note: 'Singapore/APAC algorithmic crypto MM.' },
+  { id: 'dwflabs', name: 'DWF Labs', role: 'Quant / Trading Intern', category: 'Crypto', tier: 'match', openWindow: 'Rolling', urgencyMonth: '2026-10', priority: 3, url: 'https://www.dwf-labs.com/careers', note: 'Dubai/Singapore. Very active, but mixed industry reputation — do your own diligence before committing.' },
 ];
 
-const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'EU Fin', 'Insurance', 'Commodities', 'Tech', 'Corporate', 'ETH'];
+const CATEGORIES = ['All', 'IB', 'Consulting', 'Quant', 'Insight', 'Swiss Bank', 'EU Fin', 'Crypto', 'Insurance', 'Commodities', 'Tech', 'Corporate', 'ETH'];
 
 const STATUSES = {
   todo: { label: 'To Do', color: '#0F1419', bg: '#F8F5EE' },
@@ -445,7 +488,7 @@ const STATUSES = {
 
 const CAT_COLORS = {
   IB: '#0F4C75', Consulting: '#7C3AED', Quant: '#C84B31', Insight: '#D97706',
-  'Swiss Bank': '#15803D', 'EU Fin': '#B45309', Insurance: '#0E7490', Commodities: '#A16207',
+  'Swiss Bank': '#15803D', 'EU Fin': '#B45309', Crypto: '#0D9488', Insurance: '#0E7490', Commodities: '#A16207',
   Tech: '#1F2937', Corporate: '#831843', ETH: '#9333EA',
 };
 
@@ -454,7 +497,7 @@ const CAT_COLORS = {
    match  — solid programs where the profile genuinely competes.
    safer  — high interview probability (referrals, Praktika, Big-4 quant, public sector).
    Explicit `tier` on an entry wins; otherwise inferred from category. */
-const TIER_BY_CAT = { Quant: 'reach', IB: 'reach', Consulting: 'reach', Insight: 'reach', Tech: 'reach', 'Swiss Bank': 'match', 'EU Fin': 'match', Insurance: 'match', Commodities: 'match', Corporate: 'match', ETH: 'safer' };
+const TIER_BY_CAT = { Quant: 'reach', IB: 'reach', Consulting: 'reach', Insight: 'reach', Tech: 'reach', 'Swiss Bank': 'match', 'EU Fin': 'match', Crypto: 'match', Insurance: 'match', Commodities: 'match', Corporate: 'match', ETH: 'safer' };
 const tierOf = (c) => c.tier || TIER_BY_CAT[c.category] || 'match';
 const TIER_META = {
   reach: { label: 'Reach', color: '#B91C1C', bg: '#FEF2F2' },
@@ -480,6 +523,12 @@ const EXTERNAL_ALERTS = [
 
 const STORAGE_KEY = 'eth-internship-tracker-v3';
 const LIVE_CACHE_TTL = 3600000; // 1 hour
+const ERROR_RETRY_TTL = 600000; // failed boards: don't hammer them again for 10 min
+const fetchTO = (url, ms = 10000) => {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  return fetch(url, { signal: ctl.signal }).finally(() => clearTimeout(t));
+};
 const CONFIRM_FRESH_DAYS = 45;  // a manual "confirmed open" stays valid this long
 
 const loadData = () => {
@@ -610,13 +659,15 @@ function rankJobs(jobs) {
 async function fetchBoard(c) {
   const key = c.id;
   const prev = state.data.live[key];
+  if (prev && prev.disabled) return prev; // wrong slug — stay off until manual retry
   if (prev && prev.ok && (Date.now() - prev.time < LIVE_CACHE_TTL)) return prev;
+  if (prev && !prev.ok && (Date.now() - prev.time < ERROR_RETRY_TTL)) return prev;
 
   let jobs = null, total = 0;
   try {
     if (c.ats === 'lever') {
-      const res = await fetch('https://api.lever.co/v0/postings/' + c.atsSlug + '?mode=json');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const res = await fetchTO('https://api.lever.co/v0/postings/' + c.atsSlug + '?mode=json');
+      if (!res.ok) { const err = new Error('HTTP ' + res.status); err.http = res.status; throw err; }
       const arr = await res.json();
       total = arr.length;
       jobs = arr.map(j => ({
@@ -627,8 +678,8 @@ async function fetchBoard(c) {
       }));
     } else {
       const base = c.atsEu ? 'https://boards-api.eu.greenhouse.io' : 'https://boards-api.greenhouse.io';
-      const res = await fetch(base + '/v1/boards/' + c.atsSlug + '/jobs');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const res = await fetchTO(base + '/v1/boards/' + c.atsSlug + '/jobs');
+      if (!res.ok) { const err = new Error('HTTP ' + res.status); err.http = res.status; throw err; }
       const json = await res.json();
       const all = json.jobs || [];
       total = all.length;
@@ -640,7 +691,14 @@ async function fetchBoard(c) {
       }));
     }
   } catch (e) {
-    const entry = { time: Date.now(), ok: false, error: String(e && e.message || e), seen: (prev && prev.seen) || [] };
+    const http = e && e.http;
+    const aborted = e && e.name === 'AbortError';
+    const entry = {
+      time: Date.now(), ok: false, http: http || null,
+      disabled: http === 404 && !c.verified, // best-effort slug guess was wrong — park it quietly
+      error: aborted ? 'timeout' : String(e && e.message || e),
+      seen: (prev && prev.seen) || [],
+    };
     state.data.live[key] = entry;
     return entry;
   }
@@ -663,10 +721,16 @@ async function refreshLiveData() {
   const firms = liveFirms();
   firms.forEach(c => { state.liveFetching[c.id] = true; });
   render();
+  let lastPaint = 0;
+  const maybeRender = () => {
+    const now = Date.now();
+    if (now - lastPaint > 400) { lastPaint = now; render(); }
+  };
   await Promise.all(firms.map(async (c) => {
     const entry = await fetchBoard(c);
     state.liveFetching[c.id] = false;
     if (entry.ok) updateApp(c.id, { lastChecked: new Date().toISOString() }, { silent: true });
+    maybeRender(); // results appear as they land instead of all at the end
   }));
   state.data.lastFullRefresh = new Date().toISOString();
   persist();
@@ -678,8 +742,8 @@ async function refreshSingleLive(id) {
   if (!c || !c.atsSlug) return;
   state.liveFetching[id] = true;
   render();
-  // Force refetch by expiring the cache for this firm
-  if (state.data.live[id]) state.data.live[id].time = 0;
+  // Force refetch by expiring the cache (and clearing any auto-disable)
+  if (state.data.live[id]) { state.data.live[id].time = 0; delete state.data.live[id].disabled; }
   const entry = await fetchBoard(c);
   state.liveFetching[id] = false;
   if (entry.ok) updateApp(id, { lastChecked: new Date().toISOString() }, { silent: true });
@@ -710,6 +774,7 @@ const liveStatus = (c) => {
   if (!c.atsSlug) return 'none';            // no integration
   const entry = state.data.live[c.id];
   if (!entry) return 'unknown';             // never fetched
+  if (entry.disabled) return 'none';        // wrong slug — behave like a static card
   if (!entry.ok) return 'error';            // board unreachable / slug moved
   return entry.matches.length > 0 ? 'open' : 'quiet';
 };
@@ -1023,10 +1088,13 @@ function alertsHtml() {
     + firms.map(c => {
         const e = state.data.live[c.id];
         let status, color;
-        if (!e) { status = 'not fetched yet'; color = '#8B7355'; }
-        else if (!e.ok) { status = 'unreachable — verify manually'; color = '#C84B31'; }
+        if (state.liveFetching[c.id]) { status = 'checking…'; color = '#8B7355'; }
+        else if (!e) { status = 'not fetched yet'; color = '#8B7355'; }
+        else if (e.disabled) { status = 'slug not found — disabled · tap to retry'; color = '#8B7355'; }
+        else if (!e.ok) { status = 'unreachable (' + (e.http ? 'HTTP ' + e.http : escapeHtml(e.error || 'error')) + ') · tap to retry'; color = '#C84B31'; }
         else { status = e.matches.length + ' matching / ' + e.total + ' total roles'; color = e.matches.length ? '#15803D' : '#8B7355'; }
-        return '<div class="health-row"><span>' + escapeHtml(c.name) + (c.verified ? '' : ' <span class="mono" style="font-size:9px;color:#8B7355">(best-effort slug)</span>') + '</span><span class="mono" style="font-size:10px;color:' + color + '">' + escapeHtml(status) + '</span></div>';
+        const retryable = e && (!e.ok || e.disabled);
+        return '<div class="health-row"' + (retryable ? ' data-retrylive="' + c.id + '" style="cursor:pointer"' : '') + '><span>' + escapeHtml(c.name) + (c.verified ? '' : ' <span class="mono" style="font-size:9px;color:#8B7355">(best-effort slug)</span>') + '</span><span class="mono" style="font-size:10px;color:' + color + '">' + escapeHtml(status) + '</span></div>';
       }).join('')
     + '</div>'
 
@@ -1077,6 +1145,7 @@ function cardHtml(c, variant) {
     + '<span class="card-name">' + escapeHtml(c.name) + '</span>'
     + (c.priority === 1 ? icons.star : '')
     + '<span class="cat-tag" style="color:' + catColor + ';background:' + catColor + '12">' + escapeHtml(c.category) + '</span>'
+    + (function(){ const t = TIER_META[c.tier]; return t ? '<span class="cat-tag" style="color:' + t.color + ';background:' + t.bg + '">' + t.label + '</span>' : ''; })()
     + liveBadge
     + '</div>'
     + '<div class="card-role">' + escapeHtml(c.role) + '</div>'
@@ -1208,6 +1277,9 @@ function attachListeners() {
   });
   document.querySelectorAll('[data-tierfilter]').forEach(el => {
     el.onclick = () => setState({ tierFilter: el.dataset.tierfilter, openCard: null });
+  });
+  document.querySelectorAll('[data-retrylive]').forEach(el => {
+    el.onclick = () => refreshSingleLive(el.dataset.retrylive);
   });
   document.querySelectorAll('[data-toggle-alert]').forEach(el => {
     el.onclick = (e) => { if (e.target.closest('a')) return; toggleAlert(el.dataset.toggleAlert); };
